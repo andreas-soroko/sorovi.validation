@@ -7,7 +7,7 @@ using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
 {
-    public class ValidationIfEqualsToTest
+    public class ValidationIfEqualsToTests
     {
         static object[] _ifEqualsToTestCases =
         {

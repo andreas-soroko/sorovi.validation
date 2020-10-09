@@ -7,7 +7,7 @@ using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
 {
-    public partial class ValidationTest
+    public class ValidationMemberTests
     {
         private class MemberTestClass
         {

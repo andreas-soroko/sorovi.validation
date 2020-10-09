@@ -7,7 +7,7 @@ using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
 {
-    public partial class ValidationTest
+    public class ValidationIfEmptyTests
     {
         static object[] _ifEmptyTestCases =
         {
