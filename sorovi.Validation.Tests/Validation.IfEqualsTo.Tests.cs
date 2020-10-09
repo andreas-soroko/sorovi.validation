@@ -7,9 +7,9 @@ using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
 {
-    public partial class ValidationTest
+    public class ValidationIfEqualsToTest
     {
-        static object[] _ifEqualsTestCases =
+        static object[] _ifEqualsToTestCases =
         {
             new object[] {0, 0, true},
             new object[] {0, 1, false},
@@ -21,12 +21,12 @@ namespace sorovi.Validation.Tests
         };
 
 
-        [TestCaseSource(nameof(_ifEqualsTestCases))]
-        public void IfEquals(object value, object compareValue, bool shouldThrow)
+        [TestCaseSource(nameof(_ifEqualsToTestCases))]
+        public void IfEqualsTo(object value, object compareValue, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
-                    .IfEquals(compareValue);
+                    .IfEqualsTo(compareValue);
 
             if (shouldThrow)
             {
@@ -38,12 +38,12 @@ namespace sorovi.Validation.Tests
             }
         }
 
-        [TestCaseSource(nameof(_ifEqualsTestCases))]
-        public void IfNotEquals(object value, object compareValue, bool shouldThrowOnIfNull) // todo hacki
+        [TestCaseSource(nameof(_ifEqualsToTestCases))]
+        public void IfNotEqualsTo(object value, object compareValue, bool shouldThrowOnIfNull) // todo hacki
         {
             Action a = () =>
                 ThrowOn(() => value)
-                    .IfNotEquals(compareValue);
+                    .IfNotEqualsTo(compareValue);
 
             if (!shouldThrowOnIfNull)
             {
