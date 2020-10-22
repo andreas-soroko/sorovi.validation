@@ -14,7 +14,7 @@ namespace sorovi.Validation.Tests
             new object[] {null, true},
             new object[] {"", true},
             new object[] {"test", false},
-            new object[] {" ", true},
+            new object[] {" ", false},
             new object[] {new string[] { }, true},
             new object[] {new string[] {"test"}, false},
             new object[] {new Dictionary<string, string>(), true},
