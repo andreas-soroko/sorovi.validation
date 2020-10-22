@@ -23,7 +23,7 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    ExceptionFactory.ThrowIf<TException>(string.IsNullOrWhiteSpace(sValue), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(string.IsNullOrEmpty(sValue), type, errorMessage);
                     break;
                 case IEnumerable<object> eValue:
                     ExceptionFactory.ThrowIf<TException>(!eValue.Any(), type, errorMessage);
@@ -53,7 +53,7 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    ExceptionFactory.ThrowIf<TException>(!string.IsNullOrWhiteSpace(sValue), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(!string.IsNullOrEmpty(sValue), type, errorMessage);
                     break;
                 case IEnumerable<object> eValue:
                     ExceptionFactory.ThrowIf<TException>(eValue.Any(), type, errorMessage);
