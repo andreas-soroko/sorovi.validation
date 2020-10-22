@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Linq.Expressions;
 using sorovi.Validation.ExpressionTrees;
 
@@ -9,8 +10,17 @@ namespace sorovi.Validation
         public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> getterExpression)
         {
             if (getterExpression is null) throw new ArgumentNullException(nameof(getterExpression));
-            if (!(getterExpression.Body is MemberExpression memberExpression)) throw new ArgumentException("A member expression is expected.");
-            return ThrowOn(getterExpression, memberExpression.Member.Name);
+
+            var memberName = getterExpression.Body switch
+            {
+                MemberExpression memberExpression => memberExpression.Member.Name,
+                ConstantExpression constantExpression => IsSimpleType(constantExpression.Type) ? null : constantExpression.Type.Name,
+                _ => throw new ArgumentException("unsupported expression type."),
+            };
+
+            if (string.IsNullOrEmpty(memberName)) throw new ArgumentException("could not determine memberName, use 'ThrownOn(expression, memberName)' instead");
+
+            return ThrowOn(getterExpression, memberName);
         }
 
         public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> getterExpression, in string memberName)
@@ -23,5 +33,24 @@ namespace sorovi.Validation
 
         public static ArgumentInfo<T> ThrowOn<T>(in T value) => ThrowOn(value, null);
         public static ArgumentInfo<T> ThrowOn<T>(in T value, in string memberName) => new ArgumentInfo<T>(value, memberName);
+
+        private static Type[] _simpleTypes = new[]
+        {
+            typeof(String),
+            typeof(Decimal),
+            typeof(DateTime),
+            typeof(DateTimeOffset),
+            typeof(TimeSpan),
+            typeof(Guid)
+        };
+
+        private static bool IsSimpleType(Type type)
+        {
+            return
+                type.IsValueType ||
+                type.IsPrimitive ||
+                _simpleTypes.Contains(type) ||
+                Convert.GetTypeCode(type) != TypeCode.Object;
+        }
     }
 }
