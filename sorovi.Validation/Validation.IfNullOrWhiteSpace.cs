@@ -19,7 +19,7 @@ namespace sorovi.Validation
         {
             var errorMessage = message ?? $"Expected '{arg.MemberName}' not to be null or whitespace";
 
-            ExceptionFactory.ThrowIf<TException>(string.IsNullOrWhiteSpace(arg.Value), type, errorMessage, arg.MemberName);
+            ExceptionFactory.ThrowIf<TException>(string.IsNullOrWhiteSpace(arg.Value), type, errorMessage, arg.MemberName, arg.Value);
             return ref arg;
         }
 
@@ -31,7 +31,7 @@ namespace sorovi.Validation
         {
             var errorMessage = message ?? $"Expected '{arg.MemberName}' to be null or whitespace";
 
-            ExceptionFactory.ThrowIf<TException>(!string.IsNullOrWhiteSpace(arg.Value), type, errorMessage, arg.MemberName);
+            ExceptionFactory.ThrowIf<TException>(!string.IsNullOrWhiteSpace(arg.Value), type, errorMessage, arg.MemberName, arg.Value);
             return ref arg;
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace sorovi.Validation.Exceptions
 {
-    public delegate Exception CreateExceptionDelegate(string type, string message, string memberName);
+    public delegate Exception CreateExceptionDelegate(string type, string message, string memberName, object value);
 
     public static class ExceptionFactory
     {
@@ -11,8 +11,8 @@ namespace sorovi.Validation.Exceptions
 
         static ExceptionFactory()
         {
-            Register<Exception>((type, message, memberName) => new Exception($@"[{type}] {message}"));
-            Register<ValidationException>((type, message, memberName) => new ValidationException(type, message));
+            Register<Exception>((type, message, memberName, value) => new Exception($@"[{type}] {message}"));
+            Register<ValidationException>((type, message, memberName, value) => new ValidationException(type, message));
         }
 
 
@@ -28,7 +28,7 @@ namespace sorovi.Validation.Exceptions
             _exceptionDelegates.TryAdd(exceptionType, exceptionDelegate);
         }
 
-        internal static void ThrowIf<TException>(bool predicate, string type, string message, string memberName)
+        internal static void ThrowIf<TException>(bool predicate, string type, string message, string memberName, object value)
             where TException : Exception
         {
             if (!predicate) return;
@@ -38,7 +38,7 @@ namespace sorovi.Validation.Exceptions
                 throw new InvalidOperationException($"Was not able to get exception delegate for exception type: {typeof(TException)}");
             }
 
-            throw exceptionDelegate(type, message, memberName);
+            throw exceptionDelegate(type, message, memberName, value);
         }
     }
 }
