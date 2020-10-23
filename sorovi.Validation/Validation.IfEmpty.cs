@@ -23,16 +23,16 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    ExceptionFactory.ThrowIf<TException>(string.IsNullOrEmpty(sValue), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(string.IsNullOrEmpty(sValue), type, errorMessage, arg.MemberName);
                     break;
                 case IEnumerable<object> eValue:
-                    ExceptionFactory.ThrowIf<TException>(!eValue.Any(), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(!eValue.Any(), type, errorMessage, arg.MemberName);
                     break;
                 case IDictionary sValue:
-                    ExceptionFactory.ThrowIf<TException>(sValue.Count == 0, type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(sValue.Count == 0, type, errorMessage, arg.MemberName);
                     break;
                 case Guid sValue:
-                    ExceptionFactory.ThrowIf<TException>(sValue == Guid.Empty, type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(sValue == Guid.Empty, type, errorMessage, arg.MemberName);
                     break;
                 default:
                     throw new NotSupportedException($"Specified type({arg.Value.GetType()}) is not supported.");
@@ -53,16 +53,16 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    ExceptionFactory.ThrowIf<TException>(!string.IsNullOrEmpty(sValue), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(!string.IsNullOrEmpty(sValue), type, errorMessage, arg.MemberName);
                     break;
                 case IEnumerable<object> eValue:
-                    ExceptionFactory.ThrowIf<TException>(eValue.Any(), type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(eValue.Any(), type, errorMessage, arg.MemberName);
                     break;
                 case IDictionary sValue:
-                    ExceptionFactory.ThrowIf<TException>(sValue.Count > 0, type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(sValue.Count > 0, type, errorMessage, arg.MemberName);
                     break;
                 case Guid sValue:
-                    ExceptionFactory.ThrowIf<TException>(sValue != Guid.Empty, type, errorMessage);
+                    ExceptionFactory.ThrowIf<TException>(sValue != Guid.Empty, type, errorMessage, arg.MemberName);
                     break;
 
             }

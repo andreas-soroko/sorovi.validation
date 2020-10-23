@@ -14,7 +14,7 @@ namespace sorovi.Validation
         public static ref readonly ArgumentInfo<T> IfNull<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception
         {
-            ExceptionFactory.ThrowIf<TException>(arg.Value is null, type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
+            ExceptionFactory.ThrowIf<TException>(arg.Value is null, type, message ?? $"Expected '{arg.MemberName}' not to be <null>", arg.MemberName);
             return ref arg;
         }
 
@@ -24,7 +24,7 @@ namespace sorovi.Validation
         public static ref readonly ArgumentInfo<T> IfNotNull<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception
         {
-            ExceptionFactory.ThrowIf<TException>(!(arg.Value is null), type, message ?? $"Expected '{arg.MemberName}' to be <null>");
+            ExceptionFactory.ThrowIf<TException>(!(arg.Value is null), type, message ?? $"Expected '{arg.MemberName}' to be <null>", arg.MemberName);
             return ref arg;
         }
     }
