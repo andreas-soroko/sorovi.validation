@@ -12,7 +12,7 @@ namespace sorovi.Validation
     public static class ValidationIfNullOrWhiteSpace
     {
         public static ref readonly ArgumentInfo<string> IfNullOrWhiteSpace(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueEmpty, in string message = null) =>
-            ref arg.IfNullOrWhiteSpace<Exception>(type, message);
+            ref arg.IfNullOrWhiteSpace<ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<string> IfNullOrWhiteSpace<TException>(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
             where TException : Exception
@@ -24,7 +24,7 @@ namespace sorovi.Validation
         }
 
         public static ref readonly ArgumentInfo<string> IfNotNullOrWhiteSpace(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null) =>
-            ref arg.IfNotNullOrWhiteSpace<Exception>(type, message);
+            ref arg.IfNotNullOrWhiteSpace<ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<string> IfNotNullOrWhiteSpace<TException>(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
             where TException : Exception

@@ -12,7 +12,7 @@ namespace sorovi.Validation
     public static class ValidationIfEmpty
     {
         public static ref readonly ArgumentInfo<T> IfEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
-            => ref arg.IfEmpty<T, Exception>(type, message);
+            => ref arg.IfEmpty<T, ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<T> IfEmpty<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
             where TException : Exception
@@ -43,7 +43,7 @@ namespace sorovi.Validation
         
         
         public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
-            => ref arg.IfNotEmpty<T, Exception>(type, message);
+            => ref arg.IfNotEmpty<T, ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<T> IfNotEmpty<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
             where TException : Exception

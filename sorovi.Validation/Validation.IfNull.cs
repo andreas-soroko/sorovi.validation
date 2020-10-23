@@ -9,7 +9,7 @@ namespace sorovi.Validation
     public static class ValidationIfNull
     {
         public static ref readonly ArgumentInfo<T> IfNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
-            => ref arg.IfNull<T, Exception>(type, message);
+            => ref arg.IfNull<T, ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<T> IfNull<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception
@@ -19,7 +19,7 @@ namespace sorovi.Validation
         }
 
         public static ref readonly ArgumentInfo<T> IfNotNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
-            => ref arg.IfNotNull<T, Exception>(type, message);
+            => ref arg.IfNotNull<T, ValidationException>(type, message);
 
         public static ref readonly ArgumentInfo<T> IfNotNull<T, TException>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception

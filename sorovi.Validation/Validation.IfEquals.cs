@@ -10,7 +10,7 @@ namespace sorovi.Validation
     public static class ValidationIfEquals
     {
         public static ref readonly ArgumentInfo<T> IfEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
-            => ref arg.IfEqualsTo<T, Exception>(compareValue, type, message);
+            => ref arg.IfEqualsTo<T, ValidationException>(compareValue, type, message);
 
         public static ref readonly ArgumentInfo<T> IfEqualsTo<T, TException>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception
@@ -20,7 +20,7 @@ namespace sorovi.Validation
         }
 
         public static ref readonly ArgumentInfo<T> IfNotEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
-            => ref arg.IfNotEqualsTo<T, Exception>(compareValue, type, message);
+            => ref arg.IfNotEqualsTo<T, ValidationException>(compareValue, type, message);
 
         public static ref readonly ArgumentInfo<T> IfNotEqualsTo<T, TException>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
             where TException : Exception
