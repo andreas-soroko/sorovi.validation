@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using sorovi.Validation.Exceptions;
 using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation

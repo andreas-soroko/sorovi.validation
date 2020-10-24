@@ -6,7 +6,7 @@ Because they didn't quite fit into my worklfow, something always bothered me.
 
 ## Examples
 
-Some basic examples
+##### Some basic examples
 
 ```csharp
 using static sorovi.Validation.Validation;
@@ -23,7 +23,7 @@ ThrowOn(() => myVar)
     .IfEqualsTo("Have a nice day!");
 ```
 
-Usage with a class variable
+##### Usage with a class variable
 
 ```csharp
 using static sorovi.Validation.Validation;
@@ -40,19 +40,40 @@ ThrowOn(() => myClass)
 
 ```
 
-Changing exception (api will change in the future maybe)
+##### Changing exception
 
 ```csharp
-ExceptionFactory.Register<MyNullRefException>( (type, message) => new MyExceptionClass(...) );
-
 ThrowOn(() => myVar)
-    .IfNull<string, MyNullRefException>();
+    .WithException( (type, message, memberName, value) => new F(...) )
+    .IfNull();
 ```
 
-Extendable
+```csharp
+ThrowOn(() => myVar)
+    .WithException(CreateMyOwnException)
+    .IfNull();
+
+private static Exception CreateMyOwnException<T>(in string type, in string message, in string memberName, T value) =>
+            new MyOwnException(...);
+```
+
 
 ```csharp
+ThrowOn(() => myVar)
+    .WithMyOwnException()
+    .IfNull();
 
+
+public static ArgumentInfo<T> WithMyOwnException<T>(this in ArgumentInfo<T> arg) => 
+    arg.WithException(CreateMyOwnException);
+
+private static Exception CreateMyOwnException<T>(in string type, in string message, in string memberName, T value) =>
+            new MyOwnException(...);
+```
+
+##### Extendable
+
+```csharp
 public static ref readonly ArgumentInfo<T> MyOwnValidatioFunction<T>(this in ArgumentInfo<T> arg, ....)
 {
     // ....
