@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
 
 
@@ -9,7 +12,7 @@ namespace sorovi.Validation.Tests
 {
     public class ValidationIfEmptyTests
     {
-        static object[] _ifEmptyTestCases =
+        private static object[][] _ifEmptyTestCases =
         {
             new object[] {null, true},
             new object[] {"", true},
@@ -20,6 +23,8 @@ namespace sorovi.Validation.Tests
             new object[] {new Dictionary<string, string>(), true},
         };
 
+        private static object[][] _ifNotEmptyTestCases = _ifEmptyTestCases.InverseBool();
+
         [TestCaseSource(nameof(_ifEmptyTestCases))]
         public void IfEmpty(object value, bool shouldThrow)
         {
@@ -27,31 +32,19 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfEmpty();
 
-            if (shouldThrow)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
-        
-        [TestCaseSource(nameof(_ifEmptyTestCases))]
-        public void IfNotEmpty(object value, bool shouldThrowOnIfEmpty) // todo hacki
+
+        [TestCaseSource(nameof(_ifNotEmptyTestCases))]
+        public void IfNotEmpty(object value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
                     .IfNotEmpty();
 
-            if (!shouldThrowOnIfEmpty)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
 
         [Test]

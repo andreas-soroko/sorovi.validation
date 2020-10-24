@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
 
 
@@ -9,7 +12,7 @@ namespace sorovi.Validation.Tests
 {
     public class ValidationIfNullTests
     {
-        static object[] _ifNullTestCases =
+        private static object[][] _ifNullTestCases =
         {
             new object[] {0, false},
             new object[] {"", false},
@@ -18,6 +21,7 @@ namespace sorovi.Validation.Tests
             new object[] {null, true},
         };
 
+        private static object[][] _ifNotNullTestCases = _ifNullTestCases.InverseBool();
 
         [TestCaseSource(nameof(_ifNullTestCases))]
         public void IfNull(object value, bool shouldThrow)
@@ -26,31 +30,19 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNull();
 
-            if (shouldThrow)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
 
-        [TestCaseSource(nameof(_ifNullTestCases))]
-        public void IfNotNull(object value, bool shouldThrowOnIfNull) // todo hacki
+        [TestCaseSource(nameof(_ifNotNullTestCases))]
+        public void IfNotNull(object value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
                     .IfNotNull();
 
-            if (!shouldThrowOnIfNull)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
     }
 }

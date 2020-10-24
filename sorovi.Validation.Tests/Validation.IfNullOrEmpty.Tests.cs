@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
 
 
@@ -9,13 +11,15 @@ namespace sorovi.Validation.Tests
 {
     public class ValidationIfNullOrEmptyTests
     {
-        static object[] _ifNullOrEmptyTestCases =
+        private static object[][] _ifNullOrEmptyTestCases =
         {
             new object[] {null, true},
             new object[] {"", true},
             new object[] {"test", false},
             new object[] {" ", true},
         };
+
+        private static object[][] _ifNotNullOrEmptyTestCases = _ifNullOrEmptyTestCases.InverseBool();
 
         [TestCaseSource(nameof(_ifNullOrEmptyTestCases))]
         public void IfNullOrEmpty(string value, bool shouldThrow)
@@ -24,31 +28,19 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNullOrWhiteSpace();
 
-            if (shouldThrow)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
-        
-        [TestCaseSource(nameof(_ifNullOrEmptyTestCases))]
-        public void IfNotNullOrEmpty(string value, bool shouldThrowOnIfEmpty) // todo hacki
+
+        [TestCaseSource(nameof(_ifNotNullOrEmptyTestCases))]
+        public void IfNotNullOrEmpty(string value, bool shouldThrow) // todo hacki
         {
             Action a = () =>
                 ThrowOn(() => value)
                     .IfNotNullOrWhiteSpace();
 
-            if (!shouldThrowOnIfEmpty)
-            {
-                a.Should().Throw<Exception>();
-            }
-            else
-            {
-                a.Should().NotThrow();
-            }
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
         }
     }
 }
