@@ -7,25 +7,25 @@ namespace sorovi.Validation
 {
     public static class Validation
     {
-        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> getterExpression)
+        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression)
         {
-            if (getterExpression is null) throw new ArgumentNullException(nameof(getterExpression));
+            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
 
-            var memberName = getterExpression.Body switch
+            var memberName = propertyExpression.Body switch
             {
                 MemberExpression memberExpression => memberExpression.Member.Name,
                 ConstantExpression constantExpression => "", // IsSimpleType(constantExpression.Type) ? null : constantExpression.Type.Name,
                 _ => throw new ArgumentException("unsupported expression type."),
             };
 
-            return ThrowOn(getterExpression, memberName);
+            return ThrowOn(propertyExpression, memberName);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> getterExpression, in string memberName)
+        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression, in string memberName)
         {
-            if (getterExpression is null) throw new ArgumentNullException(nameof(getterExpression));
+            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
 
-            var getter = getterExpression.CompileFast(); // caching ? 
+            var getter = propertyExpression.CompileFast(); // caching ? 
             return ThrowOn<T>(getter(), memberName);
         }
 
