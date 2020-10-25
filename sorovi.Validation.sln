@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sorovi.Validation", "sorovi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sorovi.Validation.Tests", "sorovi.Validation.Tests\sorovi.Validation.Tests.csproj", "{E690D97D-6916-44E4-9151-3841CCAAE5EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sorovi.Validation.Benchmark", "sorovi.Validation.Benchmark\sorovi.Validation.Benchmark.csproj", "{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,5 +46,17 @@ Global
 		{E690D97D-6916-44E4-9151-3841CCAAE5EA}.Release|x64.Build.0 = Release|Any CPU
 		{E690D97D-6916-44E4-9151-3841CCAAE5EA}.Release|x86.ActiveCfg = Release|Any CPU
 		{E690D97D-6916-44E4-9151-3841CCAAE5EA}.Release|x86.Build.0 = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|x64.Build.0 = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Debug|x86.Build.0 = Debug|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|x64.ActiveCfg = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|x64.Build.0 = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|x86.ActiveCfg = Release|Any CPU
+		{4B2617D6-4F98-43EB-AD0E-8A118A8C5A98}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
