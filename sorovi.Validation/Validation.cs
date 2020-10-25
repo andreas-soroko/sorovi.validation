@@ -14,11 +14,9 @@ namespace sorovi.Validation
             var memberName = getterExpression.Body switch
             {
                 MemberExpression memberExpression => memberExpression.Member.Name,
-                ConstantExpression constantExpression => IsSimpleType(constantExpression.Type) ? null : constantExpression.Type.Name,
+                ConstantExpression constantExpression => "", // IsSimpleType(constantExpression.Type) ? null : constantExpression.Type.Name,
                 _ => throw new ArgumentException("unsupported expression type."),
             };
-
-            if (string.IsNullOrEmpty(memberName)) throw new ArgumentException("could not determine memberName, use 'ThrownOn(expression, memberName)' instead");
 
             return ThrowOn(getterExpression, memberName);
         }
