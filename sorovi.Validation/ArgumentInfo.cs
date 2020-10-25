@@ -10,7 +10,7 @@ namespace sorovi.Validation
     {
         public TValue Value { get; }
         internal string MemberName { get; }
-        private readonly CreateExceptionDelegate<TValue> CreateException { get; }
+        private CreateExceptionDelegate<TValue> CreateException { get; }
 
         public ArgumentInfo(in TValue value, in string memberName, in CreateExceptionDelegate<TValue> createExceptionDelegate = null)
         {
@@ -22,7 +22,7 @@ namespace sorovi.Validation
         public ArgumentInfo<TValue> WithValidationException() =>
             WithException(CreateValidationException);
 
-        public ArgumentInfo<TValue> WithException(CreateExceptionDelegate<TValue> createExceptionDelegate) =>
+        public ArgumentInfo<TValue> WithException(in CreateExceptionDelegate<TValue> createExceptionDelegate) =>
             new ArgumentInfo<TValue>(this.Value, this.MemberName, createExceptionDelegate);
 
 
@@ -36,6 +36,6 @@ namespace sorovi.Validation
         private static Exception CreateValidationException<T>(in string type, in string message, in string memberName, T value) =>
             new ValidationException(type, message);
 
-        public static implicit operator TValue(ArgumentInfo<TValue> arg) => arg.Value;
+        public static implicit operator TValue(in ArgumentInfo<TValue> arg) => arg.Value;
     }
 }

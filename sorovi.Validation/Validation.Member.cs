@@ -23,7 +23,7 @@ namespace sorovi.Validation
             return ref currentArg;
         }
 
-        private static string BuildMemberName(string firstMember, string secondMember)
+        private static string BuildMemberName(in string firstMember, in string secondMember)
         {
             bool isFirstMemberNullOrWhiteSpace = string.IsNullOrWhiteSpace(firstMember);
             bool isSecondMemberNullOrWhiteSpace = string.IsNullOrWhiteSpace(secondMember);

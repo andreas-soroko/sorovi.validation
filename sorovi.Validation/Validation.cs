@@ -42,7 +42,7 @@ namespace sorovi.Validation
             typeof(Guid)
         };
 
-        private static bool IsSimpleType(Type type)
+        private static bool IsSimpleType(in Type type)
         {
             return
                 type.IsValueType ||
