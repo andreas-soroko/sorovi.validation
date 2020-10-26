@@ -1,5 +1,6 @@
 using System;
 using System.Linq.Expressions;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
 using sorovi.Validation.ExpressionTrees;
 
@@ -15,12 +16,13 @@ namespace sorovi.Validation
         {
             if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
             if (!(propertyExpression.Body is MemberExpression memberExpression)) throw new ArgumentException("A member expression is expected.");
-
-            var getter = propertyExpression.CompileFast(); // caching ? 
-            TSecondType value = getter(currentArg.Value);
             if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+            var info = ArgumentMemberInfo.GetMemberInfo(propertyExpression);
+            TSecondType value = info.GetValue(currentArg.Value);
+            
             arg(
-                Validation.ThrowOn(value, BuildMemberName(currentArg.MemberName, memberExpression.Member.Name))
+                Validation.ThrowOn(value, BuildMemberName(currentArg.MemberName, info.Name))
                     .WithException(currentArg.CreateException)
             );
             return ref currentArg;

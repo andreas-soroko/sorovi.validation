@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using sorovi.Validation.Common;
 using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation
@@ -25,7 +26,7 @@ namespace sorovi.Validation
         {
             if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
 
-            var getter = propertyExpression.CompileFast(); // caching ? 
+            var getter = propertyExpression.CompileFast(); // caching ?
             return ThrowOn<T>(getter(), memberName);
         }
 
