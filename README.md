@@ -53,7 +53,7 @@ ThrowOn(() => myVar)
     .WithException(CreateMyOwnException)
     .IfNull();
 
-private static Exception CreateMyOwnException<T>(in string type, in string message, in string memberName, T value) =>
+private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
             new MyOwnException(...);
 ```
 
@@ -67,7 +67,7 @@ ThrowOn(() => myVar)
 public static ArgumentInfo<T> WithMyOwnException<T>(this in ArgumentInfo<T> arg) => 
     arg.WithException(CreateMyOwnException);
 
-private static Exception CreateMyOwnException<T>(in string type, in string message, in string memberName, T value) =>
+private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
             new MyOwnException(...);
 ```
 
