@@ -11,17 +11,17 @@ namespace sorovi.Validation.Benchmark
     {
         private string property = "some_content";
 
-        [Benchmark]
+        [Benchmark(Description = "ThrowOn(() => property)")]
         public ArgumentInfo<string> PropertyGetterOnly() =>
             ThrowOn(() => property)
                 .IfNull();
 
-        [Benchmark]
+        [Benchmark(Description = "ThrowOn(() => property, nameof(property))")]
         public ArgumentInfo<string> PropertyGetterWithMemberName() =>
             ThrowOn(() => property, nameof(property))
                 .IfNull();
 
-        [Benchmark]
+        [Benchmark(Description = "ThrowOn(property, nameof(property))")]
         public ArgumentInfo<string> WithoutPropertyGetter() =>
             ThrowOn(property, nameof(property))
                 .IfNull();
