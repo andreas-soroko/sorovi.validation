@@ -96,12 +96,12 @@ Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
   DefaultJob : .NET Core 3.1.6 (CoreCLR 4.700.20.26901, CoreFX 4.700.20.31603), X64 RyuJIT
 
 
-|                       Method |           Mean |       Error |      StdDev |  Gen 0 |  Gen 1 | Gen 2 | Allocated | Completed Work Items | Lock Contentions |
-|----------------------------- |---------------:|------------:|------------:|-------:|-------:|------:|----------:|---------------------:|-----------------:|
-|           PropertyGetterOnly | 57,713.6108 ns | 626.0200 ns | 585.5795 ns | 0.2441 | 0.1221 |     - |    1733 B |               0.0001 |                - |
-| PropertyGetterWithMemberName | 57,886.6475 ns | 553.5737 ns | 490.7287 ns | 0.2441 | 0.1221 |     - |    1733 B |               0.0002 |                - |
-|        WithoutPropertyGetter |     59.6323 ns |   0.5241 ns |   0.4646 ns | 0.0254 |      - |     - |     160 B |               0.0000 |                - |
-|                      Classic |      0.1775 ns |   0.0157 ns |   0.0122 ns |      - |      - |     - |         - |               0.0000 |                - |
+|                       Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated | Completed Work Items | Lock Contentions |
+|----------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|---------------------:|-----------------:|
+|           PropertyGetterOnly | 554.2992 ns | 4.6297 ns | 4.3306 ns | 0.0401 |     - |     - |     256 B |               0.0000 |                - |
+| PropertyGetterWithMemberName |  26.6529 ns | 0.1541 ns | 0.1366 ns | 0.0102 |     - |     - |      64 B |               0.0000 |                - |
+|        WithoutPropertyGetter |  12.7798 ns | 0.0525 ns | 0.0465 ns |      - |     - |     - |         - |               0.0000 |                - |
+|                      Classic |   0.1762 ns | 0.0278 ns | 0.0247 ns |      - |     - |     - |         - |               0.0000 |                - |
 
 ```
 

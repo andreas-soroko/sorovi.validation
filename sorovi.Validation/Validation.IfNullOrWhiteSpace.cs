@@ -13,18 +13,18 @@ namespace sorovi.Validation
     {
         public static ref readonly ArgumentInfo<string> IfNullOrWhiteSpace(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' not to be null or whitespace";
+            if (!string.IsNullOrWhiteSpace(arg.Value)) { return ref arg; }
 
-            arg.ThrowIf(string.IsNullOrWhiteSpace(arg.Value), type, errorMessage);
-            return ref arg;
+            var errorMessage = message ?? $"Expected '{arg.MemberName}' not to be null or whitespace";
+            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
         }
 
         public static ref readonly ArgumentInfo<string> IfNotNullOrWhiteSpace(this in ArgumentInfo<string> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' to be null or whitespace";
+            if (string.IsNullOrWhiteSpace(arg.Value)) { return ref arg; }
 
-            arg.ThrowIf(!string.IsNullOrWhiteSpace(arg.Value), type, errorMessage);
-            return ref arg;
+            var errorMessage = message ?? $"Expected '{arg.MemberName}' to be null or whitespace";
+            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
         }
     }
 }

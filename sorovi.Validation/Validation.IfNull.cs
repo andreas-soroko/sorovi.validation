@@ -10,14 +10,16 @@ namespace sorovi.Validation
     {
         public static ref readonly ArgumentInfo<T> IfNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
         {
-            arg.ThrowIf(arg.Value is null, type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
-            return ref arg;
+            if (!(arg.Value is null)) { return ref arg; }
+
+            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be <null>", arg.MemberName, arg.MemberName);
         }
 
         public static ref readonly ArgumentInfo<T> IfNotNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
         {
-            arg.ThrowIf(!(arg.Value is null), type, message ?? $"Expected '{arg.MemberName}' to be <null>");
-            return ref arg;
+            if (arg.Value is null) { return ref arg; }
+
+            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be <null>", arg.MemberName, arg.MemberName);
         }
     }
 }

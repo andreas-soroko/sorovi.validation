@@ -19,22 +19,26 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    arg.ThrowIf(string.IsNullOrEmpty(sValue), type, errorMessage);
+                    if (!string.IsNullOrEmpty(sValue)) { return ref arg; }
+
                     break;
                 case IEnumerable<object> eValue:
-                    arg.ThrowIf(!eValue.Any(), type, errorMessage);
+                    if (eValue.Any()) { return ref arg; }
+
                     break;
                 case IDictionary sValue:
-                    arg.ThrowIf(sValue.Count == 0, type, errorMessage);
+                    if (sValue.Count > 0) { return ref arg; }
+
                     break;
                 case Guid sValue:
-                    arg.ThrowIf(sValue == Guid.Empty, type, errorMessage);
+                    if (sValue != Guid.Empty) { return ref arg; }
+
                     break;
                 default:
                     throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            return ref arg;
+            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
         }
 
         public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
@@ -45,22 +49,26 @@ namespace sorovi.Validation
             switch (arg.Value)
             {
                 case string sValue:
-                    arg.ThrowIf(!string.IsNullOrEmpty(sValue), type, errorMessage);
+                    if (string.IsNullOrEmpty(sValue)) { return ref arg; }
+
                     break;
                 case IEnumerable<object> eValue:
-                    arg.ThrowIf(eValue.Any(), type, errorMessage);
+                    if (!eValue.Any()) { return ref arg; }
+
                     break;
                 case IDictionary sValue:
-                    arg.ThrowIf(sValue.Count > 0, type, errorMessage);
+                    if (sValue.Count == 0) { return ref arg; }
+
                     break;
                 case Guid sValue:
-                    arg.ThrowIf(sValue != Guid.Empty, type, errorMessage);
+                    if (sValue == Guid.Empty) { return ref arg; }
+
                     break;
                 default:
                     throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            return ref arg;
+            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
         }
     }
 }

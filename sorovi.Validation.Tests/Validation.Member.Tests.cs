@@ -12,10 +12,14 @@ namespace sorovi.Validation.Tests
         private class MemberTestClass
         {
             public string Member { get; set; }
+
+            public ArgumentInfo<MemberTestClass> GetArgInfo() => ThrowOn(() => this);
         }
 
+        
+
         [Test]
-        public void Member()
+        public void Member_Empty()
         {
             var value = new MemberTestClass();
 
@@ -26,6 +30,23 @@ namespace sorovi.Validation.Tests
 
 
             a.Should().Throw<Exception>();
+        }
+
+        [Test]
+        public void Member_Not_Empty()
+        {
+            var value = new MemberTestClass()
+            {
+                Member = "not_empty"
+            };
+
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfNull()
+                    .Member(m => m.Member, arg => arg.IfEmpty());
+
+
+            a.Should().NotThrow();
         }
     }
 }

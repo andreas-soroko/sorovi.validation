@@ -10,26 +10,20 @@ namespace sorovi.Validation
     {
         public TValue Value { get; }
         internal string MemberName { get; }
-        internal CreateExceptionDelegate<object> CreateException { get; }
+        internal CreateExceptionDelegate<object> CreateException => _createException ?? CreateValidationException;
+        private readonly CreateExceptionDelegate<object> _createException;
 
         public ArgumentInfo(in TValue value, in string memberName, in CreateExceptionDelegate<object> createExceptionDelegate = null)
         {
             Value = value;
             MemberName = memberName;
-            CreateException = createExceptionDelegate ?? CreateValidationException;
+            _createException = createExceptionDelegate;
         }
 
         public ArgumentInfo<TValue> WithValidationException() => WithException(CreateValidationException);
 
         public ArgumentInfo<TValue> WithException(in CreateExceptionDelegate<object> createExceptionDelegate) =>
             new ArgumentInfo<TValue>(this.Value, this.MemberName, createExceptionDelegate);
-
-        internal ArgumentInfo<TValue> ThrowIf(in bool predicate, in string type, in string message)
-        {
-            if (!predicate) return this;
-
-            throw CreateException(type, message, this.MemberName, this.Value);
-        }
 
         private static Exception CreateValidationException<T>(in string type, in string message, in string memberName, T value) => new ValidationException(type, message);
 

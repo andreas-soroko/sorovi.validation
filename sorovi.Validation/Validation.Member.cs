@@ -18,11 +18,10 @@ namespace sorovi.Validation
             if (!(propertyExpression.Body is MemberExpression memberExpression)) throw new ArgumentException("A member expression is expected.");
             if (arg == null) throw new ArgumentNullException(nameof(arg));
 
-            var info = ArgumentMemberInfo.GetMemberInfo(propertyExpression);
-            TSecondType value = info.GetValue(currentArg.Value);
+            var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression, currentArg.Value);
             
             arg(
-                Validation.ThrowOn(value, BuildMemberName(currentArg.MemberName, info.Name))
+                Validation.ThrowOn(value, BuildMemberName(currentArg.MemberName, memberName))
                     .WithException(currentArg.CreateException)
             );
             return ref currentArg;

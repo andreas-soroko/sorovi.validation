@@ -11,14 +11,16 @@ namespace sorovi.Validation
     {
         public static ref readonly ArgumentInfo<T> IfEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
         {
-            arg.ThrowIf(EqualityComparer<T>.Default.Equals(arg.Value, compareValue), type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
-            return ref arg;
+            if (!EqualityComparer<T>.Default.Equals(arg.Value, compareValue)) { return ref arg; }
+
+            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be equal to {compareValue}", arg.MemberName, arg.MemberName);
         }
 
         public static ref readonly ArgumentInfo<T> IfNotEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNull, in string message = null)
         {
-            arg.ThrowIf(!EqualityComparer<T>.Default.Equals(arg.Value, compareValue), type, message ?? $"Expected '{arg.MemberName}' to be <null>");
-            return ref arg;
+            if (EqualityComparer<T>.Default.Equals(arg.Value, compareValue)) { return ref arg; }
+
+            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be equal to {compareValue}", arg.MemberName, arg.MemberName);
         }
     }
 }

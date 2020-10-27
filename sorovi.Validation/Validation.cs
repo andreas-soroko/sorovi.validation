@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using sorovi.Validation.Common;
 using sorovi.Validation.ExpressionTrees;
 
@@ -12,44 +13,19 @@ namespace sorovi.Validation
         {
             if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
 
-            var memberName = propertyExpression.Body switch
-            {
-                MemberExpression memberExpression => memberExpression.Member.Name,
-                ConstantExpression constantExpression => "", // IsSimpleType(constantExpression.Type) ? null : constantExpression.Type.Name,
-                _ => throw new ArgumentException("unsupported expression type."),
-            };
+            var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression);
 
-            return ThrowOn(propertyExpression, memberName);
+            return ThrowOn(value, memberName);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression, in string memberName)
+        public static ArgumentInfo<T> ThrowOn<T>(in Func<T> propertyGetter, in string memberName)
         {
-            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
+            if (propertyGetter is null) throw new ArgumentNullException(nameof(propertyGetter));
 
-            var getter = propertyExpression.CompileFast(); // caching ?
-            return ThrowOn<T>(getter(), memberName);
+            return ThrowOn<T>(propertyGetter(), memberName);
         }
 
         public static ArgumentInfo<T> ThrowOn<T>(in T value) => ThrowOn(value, null);
         public static ArgumentInfo<T> ThrowOn<T>(in T value, in string memberName) => new ArgumentInfo<T>(value, memberName);
-
-        private static Type[] _simpleTypes = new[]
-        {
-            typeof(String),
-            typeof(Decimal),
-            typeof(DateTime),
-            typeof(DateTimeOffset),
-            typeof(TimeSpan),
-            typeof(Guid)
-        };
-
-        private static bool IsSimpleType(in Type type)
-        {
-            return
-                type.IsValueType ||
-                type.IsPrimitive ||
-                _simpleTypes.Contains(type) ||
-                Convert.GetTypeCode(type) != TypeCode.Object;
-        }
     }
 }

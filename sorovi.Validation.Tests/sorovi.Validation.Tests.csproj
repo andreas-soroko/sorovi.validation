@@ -17,4 +17,8 @@
       <ProjectReference Include="..\sorovi.Validation\sorovi.Validation.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="ASOTEST.cs" />
+    </ItemGroup>
+
 </Project>

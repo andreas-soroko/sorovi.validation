@@ -25,7 +25,7 @@ namespace sorovi.Validation.Benchmark
         public ArgumentInfo<string> WithoutPropertyGetter() =>
             ThrowOn(property, nameof(property))
                 .IfNull();
-
+        
         [Benchmark]
         public string Classic()
         {
