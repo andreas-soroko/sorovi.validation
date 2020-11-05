@@ -18,5 +18,11 @@ namespace sorovi.Validation.Common
         public const string ValueNotDefaultValue = "value_not_default_value";
 
         public const string ValueMissing = "value_missing";
+
+        public const string ValueGreaterThan = "value_greater_than";
+        public const string ValueGreaterOrEqualsThan = "value_greater_or_equals_than";
+
+        public const string ValueLowerThan = "value_lower_than";
+        public const string ValueLowerOrEqualsThan = "value_lower_or_equals_than";
     }
 }
