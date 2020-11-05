@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 using sorovi.Validation.Exceptions;
@@ -16,6 +17,12 @@ namespace sorovi.Validation.Tests
             new object[] { -1, -2, false },
         };
 
+        private static object[][] _ifLowerThanNullable = _ifLowerThan.Concat(new[]
+        {
+            new object[] { null, 1, true },
+            new object[] { null, -1, true },
+        }).ToArray();
+
         private static object[][] _ifLowerOrEqualsThan = new object[][]
         {
             new object[] { 0, 0, true },
@@ -27,6 +34,17 @@ namespace sorovi.Validation.Tests
 
         [TestCaseSource(nameof(_ifLowerThan))]
         public void IfLowerThan(int value, int value2, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfLowerThan(value2);
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifLowerThanNullable))]
+        public void IfLowerThanNullable(int? value, int value2, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
