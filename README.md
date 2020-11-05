@@ -1,5 +1,8 @@
 # sorovi.Validation
 
+[![NuGet](https://img.shields.io/nuget/v/sorovi.Validation.svg?style=flat-square)](https://www.nuget.org/packages/sorovi.Validation/)
+[![NuGet](https://img.shields.io/nuget/dt/sorovi.Validation.svg?style=flat-square)](https://www.nuget.org/packages/sorovi.Validation/)
+
 Why an another validation library when there are many others out there already? 
 Because they didn't quite fit into my worklfow, something always bothered me. 
 
