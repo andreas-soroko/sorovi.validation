@@ -12,56 +12,65 @@ namespace sorovi.Validation
         // x: 1, y: 0 = > 0
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfGreaterThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfoBase<T, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T, TEx> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) > 0)
             {
                 arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
             }
 
-            return ref arg;
+            return arg;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfoBase<T?, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T?, TEx> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) > 0)
             {
                 arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
             }
 
-            return ref arg;
+            return arg;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationType.IfGreaterOrEqualsThan, in string message = null)
+        public static ArgumentInfoBase<T, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfoBase<T, TEx> arg,
+            T value,
+            in string type = ValidationType.IfGreaterOrEqualsThan,
+            in string message = null
+        )
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) >= 0)
             {
                 arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
             }
 
-            return ref arg;
+            return arg;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(
-            this in ArgumentInfo<T?> arg,
+        public static ArgumentInfoBase<T?, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfoBase<T?, TEx> arg,
             T? value,
             in string type = ValidationType.IfGreaterOrEqualsThan,
             in string message = null
         )
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) >= 0)
             {
                 arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
             }
 
-            return ref arg;
+            return arg;
         }
     }
 }

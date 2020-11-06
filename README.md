@@ -91,7 +91,7 @@ ThrowOn(() => myVar)
     .IfNull();
 
 
-public static ArgumentInfo<T> WithMyOwnException<T>(this in ArgumentInfo<T> arg) => 
+public static ArgumentInfo<T> WithMyOwnException<T, TEx>(this ArgumentInfoBase<T, TEx> arg) where TEx : Delegate => 
     arg.WithExceptionHandler(CreateMyOwnException);
 
 private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>
@@ -101,10 +101,10 @@ private static void CreateMyOwnExceptionHandler(in string type, in string messag
 ##### Extendable
 
 ```csharp
-public static ref readonly ArgumentInfo<T> MyOwnValidatioFunction<T>(this in ArgumentInfo<T> arg, ....)
+public static ArgumentInfoBase<T, TEx> MyOwnValidatioFunction<T, TEx>(this ArgumentInfoBase<T, TEx> arg, ....)
 {
     // ....
-    return ref arg;
+    return arg;
 }
 
 
@@ -127,11 +127,11 @@ Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
 
 |                                       Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated | Completed Work Items | Lock Contentions |
 |--------------------------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|---------------------:|-----------------:|
-|                    'ThrowOn(() => property)' | 444.8732 ns | 4.2418 ns | 3.9678 ns | 0.0353 |     - |     - |     224 B |               0.0000 |                - |
-|        'ThrowOn(property, nameof(property))' |   3.6922 ns | 0.0237 ns | 0.0185 ns |      - |     - |     - |         - |               0.0000 |                - |
-|             'ThrowOn(() => property).IfNull' | 463.8767 ns | 2.8363 ns | 2.5143 ns | 0.0353 |     - |     - |     224 B |               0.0000 |                - |
-| 'ThrowOn(property, nameof(property)).IfNull' |  10.9828 ns | 0.0762 ns | 0.0713 ns |      - |     - |     - |         - |               0.0000 |                - |
-|            'Classic - if (property is null)' |   0.0156 ns | 0.0219 ns | 0.0191 ns |      - |     - |     - |         - |               0.0000 |                - |
+|            'Classic - if (property is null)' |   0.2416 ns | 0.0162 ns | 0.0152 ns |      - |     - |     - |         - |               0.0000 |                - |
+|                    'ThrowOn(() => property)' | 450.1780 ns | 2.2035 ns | 1.7203 ns | 0.0420 |     - |     - |     264 B |               0.0000 |                - |
+|        'ThrowOn(property, nameof(property))' |   6.3160 ns | 0.0712 ns | 0.0666 ns | 0.0064 |     - |     - |      40 B |               0.0000 |                - |
+|             'ThrowOn(() => property).IfNull' | 466.8511 ns | 5.6947 ns | 5.3268 ns | 0.0420 |     - |     - |     264 B |               0.0000 |                - |
+| 'ThrowOn(property, nameof(property)).IfNull' |   8.3448 ns | 0.0721 ns | 0.0675 ns | 0.0064 |     - |     - |      40 B |               0.0000 |                - |
 
 
 ```

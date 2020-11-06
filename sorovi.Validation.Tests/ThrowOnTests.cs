@@ -15,5 +15,13 @@ namespace sorovi.Validation.Tests
 
             a.Should().Throw<NotSupportedException>();
         }
+
+        [Test]
+        public void asd()
+        {
+            string bar = "wurscht";
+            string tee1 = ThrowOn(() => bar);
+            string tee = ThrowOn(() => bar).If(v => v == "test");
+        }
     }
 }
