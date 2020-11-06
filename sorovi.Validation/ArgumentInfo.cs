@@ -7,9 +7,8 @@ namespace sorovi.Validation
 
     public readonly struct ArgumentInfo<TValue>
     {
-        public TValue Value { get; }
-
-        public string MemberName { get; }
+        public readonly TValue Value;
+        public readonly string MemberName;
 
         private readonly ExceptionHandler innerExceptionHandler;
 

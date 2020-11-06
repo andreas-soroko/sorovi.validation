@@ -5,10 +5,9 @@ using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation.Common
 {
-    // TODO remove duplicate code parts
-    public static class ExpressionHelper
+    internal static class ExpressionHelper
     {
-        public static (T2 value, string memberName) TryGetValue<T, T2>(Expression<Func<T, T2>> expression, T target)
+        public static (T2 value, string memberName) TryGetValue<T, T2>(in Expression<Func<T, T2>> expression, in T target)
         {
             if (!(expression.Body is MemberExpression memberExpression))
             {
@@ -24,7 +23,7 @@ namespace sorovi.Validation.Common
             return (value, memberExpression.Member.Name);
         }
 
-        public static (T value, string memberName) TryGetValue<T>(Expression<Func<T>> expression)
+        public static (T value, string memberName) TryGetValue<T>(in Expression<Func<T>> expression)
         {
             if (!(expression.Body is MemberExpression memberExpression))
             {
