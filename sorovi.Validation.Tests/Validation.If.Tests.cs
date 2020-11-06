@@ -19,7 +19,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .If(v => v == expected);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.If); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.If); }
             else { a.Should().NotThrow(); }
         }
 
@@ -32,7 +32,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNot(v => v == expected);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNot); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNot); }
             else { a.Should().NotThrow(); }
         }
     }

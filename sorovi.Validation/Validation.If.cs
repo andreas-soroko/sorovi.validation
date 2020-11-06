@@ -7,7 +7,7 @@ namespace sorovi.Validation
     public static class ValidationIf
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> If<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.If, in string message = null)
+        public static ref readonly ArgumentInfo<T> If<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationType.If, in string message = null)
         {
             if (predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.Value)); }
 
@@ -15,7 +15,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.IfNot, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationType.IfNot, in string message = null)
         {
             if (!predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.Value)); }
 

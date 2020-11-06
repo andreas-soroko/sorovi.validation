@@ -19,7 +19,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfDefault();
 
-            a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfDefault);
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfDefault);
         }
 
         [TestCase]
@@ -43,7 +43,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfDefault();
 
-            a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfDefault);
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfDefault);
         }
 
         [TestCase]
@@ -67,7 +67,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotDefault();
 
-            a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotDefault);
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotDefault);
         }
 
         [TestCase]
@@ -91,7 +91,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotDefault();
 
-            a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotDefault);
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotDefault);
         }
 
         [TestCase]

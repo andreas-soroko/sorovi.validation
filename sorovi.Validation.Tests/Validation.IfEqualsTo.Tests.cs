@@ -31,7 +31,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfEqualsTo(compareValue);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfEqualsTo); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfEqualsTo); }
             else { a.Should().NotThrow(); }
         }
 
@@ -42,7 +42,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotEqualsTo(compareValue);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotEqualsTo); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotEqualsTo); }
             else { a.Should().NotThrow(); }
         }
     }

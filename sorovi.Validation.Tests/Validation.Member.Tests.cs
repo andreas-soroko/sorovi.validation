@@ -30,7 +30,7 @@ namespace sorovi.Validation.Tests
 
             a.Should()
                 .Throw<ValidationException>()
-                .WithType(ValidationTypes.IfEmpty);
+                .WithType(ValidationType.IfEmpty);
         }
 
         [Test]

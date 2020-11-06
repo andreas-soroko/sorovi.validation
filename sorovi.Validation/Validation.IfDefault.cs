@@ -7,7 +7,7 @@ namespace sorovi.Validation
     public static class ValidationIfDefault
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.IfDefault, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationType.IfDefault, in string message = null)
         {
             if (EqualityComparer<T>.Default.Equals(arg.Value, default(T)))
             {
@@ -18,7 +18,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfNotDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.IfNotDefault, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfNotDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationType.IfNotDefault, in string message = null)
         {
             if (!EqualityComparer<T>.Default.Equals(arg.Value, default(T)))
             {

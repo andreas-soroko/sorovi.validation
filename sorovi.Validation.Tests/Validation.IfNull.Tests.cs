@@ -29,7 +29,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNull();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNull); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNull); }
             else { a.Should().NotThrow(); }
         }
 
@@ -40,7 +40,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotNull();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotNull); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotNull); }
             else { a.Should().NotThrow(); }
         }
     }

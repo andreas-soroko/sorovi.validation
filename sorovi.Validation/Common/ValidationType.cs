@@ -1,6 +1,6 @@
 namespace sorovi.Validation.Common
 {
-    public static class ValidationTypes
+    public static class ValidationType
     {
         public const string If = "value_condition";
         public const string IfNot = "value_condition";

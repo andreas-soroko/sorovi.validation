@@ -8,7 +8,7 @@ namespace sorovi.Validation
 {
     public static class ValidationIfEmpty
     {
-        public static ref readonly ArgumentInfo<T> IfEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.IfEmpty, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationType.IfEmpty, in string message = null)
         {
             arg.IfNull<T>(type);
 
@@ -38,7 +38,7 @@ namespace sorovi.Validation
             return ref arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.IfNotEmpty, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationType.IfNotEmpty, in string message = null)
         {
             if (arg.Value is null) { return ref arg; }
 
