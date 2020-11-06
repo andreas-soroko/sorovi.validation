@@ -10,70 +10,45 @@ namespace sorovi.Validation.Common
     {
         public static (T2 value, string memberName) TryGetValue<T, T2>(Expression<Func<T, T2>> expression, T target)
         {
-            var memberName = "";
-            T2 value;
-
-            switch (expression.Body)
+            if (!(expression.Body is MemberExpression memberExpression))
             {
-                case MemberExpression memberExpression:
-                    memberName = memberExpression.Member.Name;
-                    switch (memberExpression.Expression)
-                    {
-                        case ParameterExpression parameterExpression:
-                            value = memberExpression.Member switch
-                            {
-                                PropertyInfo propertyInfo => (T2)propertyInfo.GetValue(target),
-                                FieldInfo fieldInfo => (T2)fieldInfo.GetValue(target),
-                                _ =>  throw new ArgumentException("unsupported expression type.")
-                            };
-                            break;
-                        default:
-                            value = expression.CompileFast()(target);
-                            break;
-                    }
-
-                    break;
-                default:
-                    throw new ArgumentException("unsupported expression type.");
+                throw new NotSupportedException($"Expected expression to be 'MemberExpression' but was '{expression.Body.GetType().Name}'");
             }
 
-            return (value, memberName);
+            var value = memberExpression.Expression switch
+            {
+                ParameterExpression parameterExpression => GetValue<T2>(memberExpression.Member, target),
+                _ => expression.CompileFast()(target),
+            };
+
+            return (value, memberExpression.Member.Name);
         }
 
         public static (T value, string memberName) TryGetValue<T>(Expression<Func<T>> expression)
         {
-            var memberName = "";
-            T value;
-
-            switch (expression.Body)
+            if (!(expression.Body is MemberExpression memberExpression))
             {
-                case MemberExpression memberExpression:
-                    memberName = memberExpression.Member.Name;
-                    switch (memberExpression.Expression)
-                    {
-                        case ConstantExpression innerConstantExpression:
-                            value = memberExpression.Member switch
-                            {
-                                PropertyInfo propertyInfo => (T)propertyInfo.GetValue(innerConstantExpression.Value),
-                                FieldInfo fieldInfo => (T)fieldInfo.GetValue(innerConstantExpression.Value),
-                                _ =>  throw new ArgumentException("unsupported expression type.")
-                            };
-                            break;
-                        default:
-                            value = value = expression.CompileFast()();
-                            break;
-                    }
-
-                    break;
-                case ConstantExpression constantExpression:
-                    value = (T) constantExpression.Value;
-                    break;
-
-                default:
-                    throw new ArgumentException("unsupported expression type.");
+                throw new NotSupportedException($"Expected expression to be 'MemberExpression' but was '{expression.Body.GetType().Name}'");
             }
 
-            return (value, memberName);
+            var value = memberExpression.Expression switch
+            {
+                ConstantExpression innerConstantExpression => GetValue<T>(memberExpression.Member, innerConstantExpression.Value),
+                null => GetValue<T>(memberExpression.Member, null),
+                _ => expression.CompileFast()(),
+            };
+
+            return (value, memberExpression.Member.Name);
+        }
+
+        private static T GetValue<T>(MemberInfo memberInfo, object target = null)
+        {
+            return memberInfo switch
+            {
+                PropertyInfo propertyInfo => (T)propertyInfo.GetValue(target),
+                FieldInfo fieldInfo => (T)fieldInfo.GetValue(target),
+                _ => throw new ArgumentException("unsupported expression type."),
+            };
         }
     }
 }

@@ -1,18 +1,19 @@
+using System;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Exceptions;
 using static sorovi.Validation.Validation;
-
 
 namespace sorovi.Validation.Tests
 {
     public class ThrowOnTests
     {
         [Test]
-        public void ThrowOn_PropertyGetter_MemberName_On_This_Should_Be_Empty()
+        public void ThrowOn_WithConstantExpression_Should_Throw_NotSupported()
         {
-            var argInfo = ThrowOn(() => this);
+            Action a = () => ThrowOn(() => this);
 
-            argInfo.MemberName.Should().Be("");
+            a.Should().Throw<NotSupportedException>();
         }
     }
 }
