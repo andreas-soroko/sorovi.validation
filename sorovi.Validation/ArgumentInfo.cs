@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using sorovi.Validation.Exceptions;
 
 namespace sorovi.Validation
