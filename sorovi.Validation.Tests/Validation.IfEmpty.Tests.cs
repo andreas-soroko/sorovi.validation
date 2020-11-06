@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
 using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
-
 
 namespace sorovi.Validation.Tests
 {
@@ -13,13 +13,13 @@ namespace sorovi.Validation.Tests
     {
         private static object[][] _ifEmptyTestCases =
         {
-            new object[] {null, true},
-            new object[] {"", true},
-            new object[] {"test", false},
-            new object[] {" ", false},
-            new object[] {new string[] { }, true},
-            new object[] {new string[] {"test"}, false},
-            new object[] {new Dictionary<string, string>(), true},
+            new object[] { null, true },
+            new object[] { "", true },
+            new object[] { "test", false },
+            new object[] { " ", false },
+            new object[] { new string[] { }, true },
+            new object[] { new string[] { "test" }, false },
+            new object[] { new Dictionary<string, string>(), true },
         };
 
         private static object[][] _ifNotEmptyTestCases = _ifEmptyTestCases.InverseBool();
@@ -31,7 +31,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfEmpty();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueEmpty); }
             else { a.Should().NotThrow(); }
         }
 
@@ -42,7 +42,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotEmpty();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueNotEmpty); }
             else { a.Should().NotThrow(); }
         }
 

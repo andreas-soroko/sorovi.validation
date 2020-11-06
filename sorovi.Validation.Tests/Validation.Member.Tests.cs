@@ -1,8 +1,10 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
+using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
-
 
 namespace sorovi.Validation.Tests
 {
@@ -12,10 +14,9 @@ namespace sorovi.Validation.Tests
         {
             public string Member { get; set; }
 
-            public ArgumentInfo<MemberTestClass> GetArgInfo() => ThrowOn(() => this);
+            public ArgumentInfo<MemberTestClass> GetArgInfo() =>
+                ThrowOn(() => this);
         }
-
-        
 
         [Test]
         public void Member_Empty()
@@ -27,8 +28,9 @@ namespace sorovi.Validation.Tests
                     .IfNull()
                     .Member(m => m.Member, arg => arg.IfEmpty());
 
-
-            a.Should().Throw<Exception>();
+            a.Should()
+                .Throw<ValidationException>()
+                .WithType(ValidationTypes.ValueEmpty);
         }
 
         [Test]
@@ -43,7 +45,6 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNull()
                     .Member(m => m.Member, arg => arg.IfEmpty());
-
 
             a.Should().NotThrow();
         }

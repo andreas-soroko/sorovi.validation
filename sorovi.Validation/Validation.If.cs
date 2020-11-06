@@ -1,24 +1,23 @@
 using System;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
 
 namespace sorovi.Validation
 {
     public static class ValidationIf
     {
-        public static ref readonly ArgumentInfo<T> If<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref readonly ArgumentInfo<T> If<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueIf, in string message = null)
         {
-            if (!predicate(arg.Value)) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
+            if (predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.Value)); }
 
             return ref arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueIfNot, in string message = null)
         {
-            if (predicate(arg.Value)) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' to be <null>");
+            if (!predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.Value)); }
 
             return ref arg;
         }

@@ -2,6 +2,9 @@ namespace sorovi.Validation.Common
 {
     public class ValidationTypes
     {
+        public const string ValueIf = "value_condition";
+        public const string ValueIfNot = "value_condition";
+
         public const string ValueNull = "value_null";
         public const string ValueNotNull = "value_not_null";
 
@@ -16,8 +19,6 @@ namespace sorovi.Validation.Common
 
         public const string ValueDefaultValue = "value_default_value";
         public const string ValueNotDefaultValue = "value_not_default_value";
-
-        public const string ValueMissing = "value_missing";
 
         public const string ValueGreaterThan = "value_greater_than";
         public const string ValueGreaterOrEqualsThan = "value_greater_or_equals_than";

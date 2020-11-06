@@ -8,19 +8,15 @@ namespace sorovi.Validation
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly ArgumentInfo<T> IfNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
         {
-            if (arg.Value is null)
-            {
-                arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
-            }
+            if (arg.Value is null) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
             return ref arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNotNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ref readonly ArgumentInfo<T> IfNotNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotNull, in string message = null)
         {
-            if (arg.Value is null) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' to be <null>");
+            if (!(arg.Value is null)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
             return ref arg;
         }

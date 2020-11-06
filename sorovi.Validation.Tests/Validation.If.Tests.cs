@@ -1,9 +1,10 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
-
 
 namespace sorovi.Validation.Tests
 {
@@ -18,10 +19,10 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .If(v => v == expected);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueIf); }
             else { a.Should().NotThrow(); }
         }
-        
+
         [TestCase("", "", false)]
         [TestCase("", "test", true)]
         [TestCase("test", "", true)]
@@ -31,7 +32,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNot(v => v == expected);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueIfNot); }
             else { a.Should().NotThrow(); }
         }
     }

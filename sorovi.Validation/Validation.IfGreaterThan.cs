@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
 
 namespace sorovi.Validation
@@ -10,37 +11,43 @@ namespace sorovi.Validation
         // x: 0, y: 1 = < 0
         // x: 1, y: 0 = > 0
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly ArgumentInfo<T> IfGreaterThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
             where T : struct, IComparable<T>
         {
-            if (Comparer<T>.Default.Compare(arg.Value, value) <= 0) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}");
+            if (Comparer<T>.Default.Compare(arg.Value, value) > 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
             return ref arg;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
             where T : struct, IComparable<T>
         {
-            var x = Comparer<T?>.Default.Compare(arg.Value, value);
-            if (x <= 0) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}");
+            if (Comparer<T?>.Default.Compare(arg.Value, value) > 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
             return ref arg;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
             where T : struct, IComparable<T>
         {
-            if (Comparer<T>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}");
+            if (Comparer<T>.Default.Compare(arg.Value, value) >= 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
             return ref arg;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(
             this in ArgumentInfo<T?> arg,
             T? value,
@@ -49,9 +56,10 @@ namespace sorovi.Validation
         )
             where T : struct, IComparable<T>
         {
-            if (Comparer<T?>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
-
-            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}");
+            if (Comparer<T?>.Default.Compare(arg.Value, value) >= 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
             return ref arg;
         }

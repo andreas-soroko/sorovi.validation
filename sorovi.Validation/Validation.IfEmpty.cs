@@ -10,8 +10,7 @@ namespace sorovi.Validation
     {
         public static ref readonly ArgumentInfo<T> IfEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' not to be empty";
-            arg.IfNull<T>();
+            arg.IfNull<T>(type);
 
             switch (arg.Value)
             {
@@ -34,14 +33,13 @@ namespace sorovi.Validation
                 default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            arg.ExceptionHandler(type, errorMessage);
+            arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
 
             return ref arg;
         }
 
         public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' to be empty";
             if (arg.Value is null) { return ref arg; }
 
             switch (arg.Value)
@@ -65,7 +63,7 @@ namespace sorovi.Validation
                 default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            arg.ExceptionHandler(type, errorMessage);
+            arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
 
             return ref arg;
         }

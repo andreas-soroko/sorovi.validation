@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
@@ -17,11 +19,14 @@ namespace sorovi.Validation.Tests
             new object[] { -1, -2, false },
         };
 
-        private static object[][] _ifLowerThanNullable = _ifLowerThan.Concat(new[]
-        {
-            new object[] { null, 1, true },
-            new object[] { null, -1, true },
-        }).ToArray();
+        private static object[][] _ifLowerThanNullable = _ifLowerThan.Concat(
+                new[]
+                {
+                    new object[] { null, 1, true },
+                    new object[] { null, -1, true },
+                }
+            )
+            .ToArray();
 
         private static object[][] _ifLowerOrEqualsThan = new object[][]
         {
@@ -39,7 +44,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfLowerThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueLowerThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -50,7 +55,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfLowerThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueLowerThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -61,7 +66,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfLowerOrEqualsThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueLowerOrEqualsThan); }
             else { a.Should().NotThrow(); }
         }
     }
