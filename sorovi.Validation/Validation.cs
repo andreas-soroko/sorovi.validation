@@ -15,13 +15,6 @@ namespace sorovi.Validation
             return new ArgumentInfo<T>(value, memberName, exceptionHandler);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in Func<T> propertyGetter, in string memberName, in ExceptionHandler exceptionHandler = null)
-        {
-            if (propertyGetter is null) { throw new ArgumentNullException(nameof(propertyGetter)); }
-
-            return new ArgumentInfo<T>(propertyGetter(), memberName, exceptionHandler);
-        }
-
         public static ArgumentInfo<T> ThrowOn<T>(in T value, in ExceptionHandler exceptionHandler = null) =>
             new ArgumentInfo<T>(value, null, exceptionHandler);
 
