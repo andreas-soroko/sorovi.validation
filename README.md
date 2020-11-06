@@ -4,33 +4,46 @@
 [![NuGet](https://img.shields.io/nuget/dt/sorovi.Validation.svg?style=flat-square)](https://www.nuget.org/packages/sorovi.Validation/)
 
 Why an another validation library when there are many others out there already? 
-Because they didn't quite fit into my worklfow, something always bothered me. 
+Because they didn't quite fit into my worklfow, something always bothered me, so i created my own. 
 
+- exceptions are changeable
+- one exception with several types
+- exception contains necessaries information
+- fast
 
-## Examples
+and in the future 
+- result object with all errors as alternative
+- scoping
+- more array and dictionary validations
 
-##### Some basic examples
+   
+> the lib is currently not finally done and I am still dissatisfied with some code parts,
+so it may be that up to version 1 there will maybe breaking changes
+
+---
+### Examples
+
+for better handling add 
 
 ```csharp
 using static sorovi.Validation.Validation;
+```
 
+now you can initialize it in several ways
+```csharp
 string myVar = "Have a nice day!";
 
-ThrowOn(() => myVar)
-    .IfNull();
-
-ThrowOn(() => myVar)
-    .IfEmpty();
-
-ThrowOn(() => myVar)
-    .IfEqualsTo("Have a nice day!");
+ThrowOn(() => myVar);
+ThrowOn(myVar, nameof(myVar));
+ThrowOn(myVar, "custom_name");
 ```
+
+each validation function will thrown a ValidationException with a `type` and `message`
+these can be found here [ErrorMessage](sorovi.Validation/Common/ErrorMessage.cs) [ValidationType](sorovi.Validation/Common/ValidationType.cs)
 
 ##### Usage with a class variable
 
 ```csharp
-using static sorovi.Validation.Validation;
-
 private class MySuperClass { 
     public string MyVar = "Have a nice day!";
 }
@@ -43,21 +56,32 @@ ThrowOn(() => myClass)
 
 ```
 
+##### Changing type/message property
+
+```csharp
+int? myVar = null;
+
+ThrowOn(() => myVar)
+    .IfNull("my_own_null_ref_type", "Property {0} was null!!1");
+```
+
+
+
 ##### Changing exception
 
 ```csharp
 ThrowOn(() => myVar)
-    .WithException( (type, message, memberName, value) => new F(...) )
+    .WithExceptionHandler( (type, message, memberName, value) => new F(...) )
     .IfNull();
 ```
 
 ```csharp
 ThrowOn(() => myVar)
-    .WithException(CreateMyOwnException)
+    .WithExceptionHandler(CreateMyOwnExceptionHandler)
     .IfNull();
 
-private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
-            new MyOwnException(...);
+private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>
+            throw new MyOwnException(...);
 ```
 
 
@@ -68,10 +92,10 @@ ThrowOn(() => myVar)
 
 
 public static ArgumentInfo<T> WithMyOwnException<T>(this in ArgumentInfo<T> arg) => 
-    arg.WithException(CreateMyOwnException);
+    arg.WithExceptionHandler(CreateMyOwnException);
 
-private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
-            new MyOwnException(...);
+private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>
+            throw new MyOwnException(...);
 ```
 
 ##### Extendable
@@ -88,6 +112,8 @@ ThrowOn(() => myVar)
     .MyOwnValidatioFunction();
 
 ```
+
+more examples can be found [here](docs/validations.md)
 
 ## Benchmark
 
