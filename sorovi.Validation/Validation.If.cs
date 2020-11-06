@@ -9,14 +9,18 @@ namespace sorovi.Validation
         {
             if (!predicate(arg.Value)) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be <null>", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be <null>");
+
+            return ref arg;
         }
 
         public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueNull, in string message = null)
         {
             if (predicate(arg.Value)) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be <null>", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' to be <null>");
+
+            return ref arg;
         }
     }
 }

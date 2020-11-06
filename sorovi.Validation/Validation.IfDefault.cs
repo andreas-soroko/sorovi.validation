@@ -9,14 +9,18 @@ namespace sorovi.Validation
         {
             if (!EqualityComparer<T>.Default.Equals(arg.Value, default(T))) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to default", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to default");
+
+            return ref arg;
         }
 
         public static ref readonly ArgumentInfo<T> IfNotDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotDefaultValue, in string message = null)
         {
             if (EqualityComparer<T>.Default.Equals(arg.Value, default(T))) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be default", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' to be default");
+
+            return ref arg;
         }
     }
 }

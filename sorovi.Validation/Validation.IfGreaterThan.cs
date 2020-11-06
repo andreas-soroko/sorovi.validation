@@ -15,7 +15,9 @@ namespace sorovi.Validation
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) <= 0) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}");
+
+            return ref arg;
         }
 
         public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
@@ -24,26 +26,34 @@ namespace sorovi.Validation
             var x = Comparer<T?>.Default.Compare(arg.Value, value);
             if (x <= 0) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}", arg.MemberName, arg.MemberName);
-        }
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}");
 
+            return ref arg;
+        }
 
         public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}");
 
+            return ref arg;
         }
 
-        public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
+        public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(
+            this in ArgumentInfo<T?> arg,
+            T? value,
+            in string type = ValidationTypes.ValueGreaterOrEqualsThan,
+            in string message = null
+        )
             where T : struct, IComparable<T>
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}", arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}");
 
+            return ref arg;
         }
     }
 }

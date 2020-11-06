@@ -6,23 +6,26 @@ namespace sorovi.Validation
 {
     public static class Validation
     {
-        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression)
+        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression, in ExceptionHandler exceptionHandler = null)
         {
-            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
+            if (propertyExpression is null) { throw new ArgumentNullException(nameof(propertyExpression)); }
 
             var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression);
 
-            return ThrowOn(value, memberName);
+            return new ArgumentInfo<T>(value, memberName, exceptionHandler);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in Func<T> propertyGetter, in string memberName)
+        public static ArgumentInfo<T> ThrowOn<T>(in Func<T> propertyGetter, in string memberName, in ExceptionHandler exceptionHandler = null)
         {
-            if (propertyGetter is null) throw new ArgumentNullException(nameof(propertyGetter));
+            if (propertyGetter is null) { throw new ArgumentNullException(nameof(propertyGetter)); }
 
-            return ThrowOn<T>(propertyGetter(), memberName);
+            return new ArgumentInfo<T>(propertyGetter(), memberName, exceptionHandler);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in T value) => ThrowOn(value, null);
-        public static ArgumentInfo<T> ThrowOn<T>(in T value, in string memberName) => new ArgumentInfo<T>(value, memberName);
+        public static ArgumentInfo<T> ThrowOn<T>(in T value, in ExceptionHandler exceptionHandler = null) =>
+            new ArgumentInfo<T>(value, null, exceptionHandler);
+
+        public static ArgumentInfo<T> ThrowOn<T>(in T value, in string memberName, in ExceptionHandler exceptionHandler = null) =>
+            new ArgumentInfo<T>(value, memberName, exceptionHandler);
     }
 }

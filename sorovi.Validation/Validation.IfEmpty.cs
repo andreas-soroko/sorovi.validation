@@ -31,11 +31,12 @@ namespace sorovi.Validation
                     if (sValue != Guid.Empty) { return ref arg; }
 
                     break;
-                default:
-                    throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
+                default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, errorMessage);
+
+            return ref arg;
         }
 
         public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
@@ -61,11 +62,12 @@ namespace sorovi.Validation
                     if (sValue == Guid.Empty) { return ref arg; }
 
                     break;
-                default:
-                    throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
+                default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, errorMessage);
+
+            return ref arg;
         }
     }
 }

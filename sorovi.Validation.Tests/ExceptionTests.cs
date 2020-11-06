@@ -19,7 +19,7 @@ namespace sorovi.Validation.Tests
             string test = null;
 
             Action a = () => ThrowOn(() => test)
-                .WithException((in string type, in string message, in string name, object value) => new TestException())
+                .WithExceptionHandler((in string type, in string message, in string memberName, in object value) => throw new TestException())
                 .IfNull();
 
             a.Should().Throw<TestException>();
@@ -34,7 +34,7 @@ namespace sorovi.Validation.Tests
             };
 
             Action a = () => ThrowOn(() => testClass)
-                .WithException((in string type, in string message, in string name, object value) => new TestException())
+                .WithExceptionHandler((in string type, in string message, in string memberName, in object value) => throw new TestException())
                 .IfNull()
                 .Member(p => p.MyString, v => v.IfEqualsTo("test"));
 

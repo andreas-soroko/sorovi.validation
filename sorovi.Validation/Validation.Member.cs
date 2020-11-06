@@ -17,10 +17,9 @@ namespace sorovi.Validation
             if (arg == null) throw new ArgumentNullException(nameof(arg));
 
             var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression, currentArg.Value);
-            
+
             arg(
-                Validation.ThrowOn(value, BuildMemberName(currentArg.MemberName, memberName))
-                    .WithException(currentArg.CreateException)
+                currentArg.New(value, BuildMemberName(currentArg.MemberName, memberName))
             );
             return ref currentArg;
         }
