@@ -4,13 +4,12 @@ using sorovi.Validation.Exceptions;
 namespace sorovi.Validation
 {
     public delegate void ExceptionHandler(in string type, in string message, in string memberName, in object value);
-    public delegate void ExceptionHandlerInternal(in string type, in string message);
 
     public readonly struct ArgumentInfo<TValue>
     {
         public TValue Value { get; }
 
-        internal string MemberName { get; }
+        public string MemberName { get; }
 
         private readonly ExceptionHandler innerExceptionHandler;
 
@@ -24,10 +23,8 @@ namespace sorovi.Validation
         public ArgumentInfo<TValue> WithExceptionHandler(in ExceptionHandler exceptionHandler) =>
             new ArgumentInfo<TValue>(Value, MemberName, exceptionHandler);
 
-        internal void ExceptionHandler(in string type, in string message)
-        {
+        internal void ExceptionHandler(in string type, in string message) =>
             (innerExceptionHandler ?? CreateValidationException)(type, message, MemberName, Value);
-        }
 
         internal ArgumentInfo<TNewValue> New<TNewValue>(in TNewValue value, in string memberName) =>
             new ArgumentInfo<TNewValue>(value, memberName, innerExceptionHandler);
