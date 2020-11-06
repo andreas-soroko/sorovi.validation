@@ -32,7 +32,7 @@ namespace sorovi.Validation.Benchmark
         [Benchmark(Description = "Classic - if (property is null)")]
         public string Classic()
         {
-            if (property is null) { throw new ValidationException(ValidationTypes.ValueNull, ""); }
+            if (property is null) { throw new ValidationException(ValidationTypes.IfNull, ""); }
 
             return property;
         }

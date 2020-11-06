@@ -31,7 +31,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfEmpty();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueEmpty); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfEmpty); }
             else { a.Should().NotThrow(); }
         }
 
@@ -42,7 +42,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotEmpty();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueNotEmpty); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotEmpty); }
             else { a.Should().NotThrow(); }
         }
 

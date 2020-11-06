@@ -44,7 +44,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueGreaterThan); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfGreaterThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -55,7 +55,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueGreaterThan); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfGreaterThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -66,7 +66,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterOrEqualsThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueGreaterOrEqualsThan); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfGreaterOrEqualsThan); }
             else { a.Should().NotThrow(); }
         }
     }

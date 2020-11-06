@@ -27,7 +27,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNullOrWhiteSpace();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueNullOrWhiteSpace); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNullOrWhiteSpace); }
             else { a.Should().NotThrow(); }
         }
 
@@ -38,7 +38,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotNullOrWhiteSpace();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.ValueNotNullOrWhiteSpace); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationTypes.IfNotNullOrWhiteSpace); }
             else { a.Should().NotThrow(); }
         }
     }

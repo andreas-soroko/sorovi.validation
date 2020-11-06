@@ -12,7 +12,7 @@ namespace sorovi.Validation
         // x: 1, y: 0 = > 0
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfGreaterThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfGreaterThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) > 0)
@@ -24,7 +24,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
+        public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) > 0)
@@ -36,7 +36,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.IfGreaterOrEqualsThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) >= 0)
@@ -51,7 +51,7 @@ namespace sorovi.Validation
         public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(
             this in ArgumentInfo<T?> arg,
             T? value,
-            in string type = ValidationTypes.ValueGreaterOrEqualsThan,
+            in string type = ValidationTypes.IfGreaterOrEqualsThan,
             in string message = null
         )
             where T : struct, IComparable<T>

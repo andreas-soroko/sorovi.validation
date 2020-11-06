@@ -4,10 +4,10 @@ using sorovi.Validation.Common;
 
 namespace sorovi.Validation
 {
-    public static class ValidationIfEquals
+    public static class ValidationIfEqualsTo
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueEquals, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.IfEqualsTo, in string message = null)
         {
             if (EqualityComparer<T>.Default.Equals(arg.Value, compareValue))
             {
@@ -18,7 +18,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfNotEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.ValueNotEquals, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfNotEqualsTo<T>(this in ArgumentInfo<T> arg, in T compareValue, in string type = ValidationTypes.IfNotEqualsTo, in string message = null)
         {
             if (!EqualityComparer<T>.Default.Equals(arg.Value, compareValue))
             {

@@ -8,7 +8,7 @@ namespace sorovi.Validation
     public static class ValidationIfLowerThan
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfLowerThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueLowerThan, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfLowerThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.IfLowerThan, in string message = null)
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) < 0)
@@ -20,7 +20,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T?> IfLowerThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueLowerThan, in string message = null)
+        public static ref readonly ArgumentInfo<T?> IfLowerThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.IfLowerThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) < 0)
@@ -32,7 +32,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T> IfLowerOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueLowerOrEqualsThan, in string message = null)
+        public static ref readonly ArgumentInfo<T> IfLowerOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.IfLowerOrEqualsThan, in string message = null)
             where T : IComparable<T>
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) <= 0)
@@ -44,7 +44,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ref readonly ArgumentInfo<T?> IfLowerOrEqualsThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueLowerOrEqualsThan, in string message = null)
+        public static ref readonly ArgumentInfo<T?> IfLowerOrEqualsThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.IfLowerOrEqualsThan, in string message = null)
             where T : struct, IComparable<T>
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) <= 0)
