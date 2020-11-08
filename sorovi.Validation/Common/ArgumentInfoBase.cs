@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Text;
 
 namespace sorovi.Validation.Common
 {
     public abstract class ArgumentInfoBase<TValue, TExceptionDelegate>
         where TExceptionDelegate : Delegate
     {
+        public bool HasErrors { get; protected set; } = false;
+        public abstract string ErrorMessage { get; }
         public abstract TValue Value { get; }
         public abstract string MemberName { get; }
         public abstract void ExceptionHandler(in string type, in string message);

@@ -9,10 +9,10 @@ Because they didn't quite fit into my worklfow, something always bothered me, so
 - exceptions are changeable
 - one exception with several types
 - exception contains necessaries information
+- same api for exception less results
 - fast
 
 and in the future 
-- result object with all errors as alternative
 - scoping
 - more array and dictionary validations
 
@@ -29,17 +29,26 @@ for better handling add
 using static sorovi.Validation.Validation;
 ```
 
-now you can initialize it in several ways
+now you can initialize it in several ways 
+
 ```csharp
 string myVar = "Have a nice day!";
 
+// if you want exceptions
 ThrowOn(() => myVar);
 ThrowOn(myVar, nameof(myVar));
 ThrowOn(myVar, "custom_name");
+
+// if you want a result object was messages instead of exceptions
+ResultOn(() => myVar);
+Result(myVar, nameof(myVar));
+Result(myVar, "custom_name");
 ```
 
 each validation function will thrown a ValidationException with a `type` and `message`
 these can be found here [ErrorMessage](sorovi.Validation/Common/ErrorMessage.cs) [ValidationType](sorovi.Validation/Common/ValidationType.cs)
+
+
 
 ##### Usage with a class variable
 

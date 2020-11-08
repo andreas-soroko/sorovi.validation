@@ -13,6 +13,7 @@ namespace sorovi.Validation
     {
         public override TValue Value { get; }
         public override string MemberName { get; }
+        public override string ErrorMessage { get; } = null;
         protected override ExceptionHandler InnerExceptionHandler { get; }
 
         public ExceptionArgumentInfo(in TValue value, in string memberName, in ExceptionHandler exceptionHandler = null)
