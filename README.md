@@ -45,7 +45,7 @@ ResultOn(myVar, nameof(myVar));
 ResultOn(myVar, "custom_name");
 ```
 
-each validation function will thrown a ValidationException with a `type` and `message`
+each validation function will throw a ValidationException (when ThrownOn is used) with a `type` and `message`
 these can be found here [ErrorMessage](sorovi.Validation/Common/ErrorMessage.cs) [ValidationType](sorovi.Validation/Common/ValidationType.cs)
 
 
