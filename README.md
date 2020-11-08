@@ -39,10 +39,10 @@ ThrowOn(() => myVar);
 ThrowOn(myVar, nameof(myVar));
 ThrowOn(myVar, "custom_name");
 
-// if you want a result object was messages instead of exceptions
+// if you want a result object with messages instead of exceptions
 ResultOn(() => myVar);
-Result(myVar, nameof(myVar));
-Result(myVar, "custom_name");
+ResultOn(myVar, nameof(myVar));
+ResultOn(myVar, "custom_name");
 ```
 
 each validation function will thrown a ValidationException with a `type` and `message`
