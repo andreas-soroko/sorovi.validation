@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using FluentAssertions;
 using NUnit.Framework;
@@ -11,21 +12,33 @@ namespace sorovi.Validation.Tests
 {
     public class ValidationIfEmptyTests
     {
-        private static object[][] _ifEmptyTestCases =
+        private static object[][] _ifEmptyStringTestCases =
         {
             new object[] { null, true },
             new object[] { "", true },
             new object[] { "test", false },
-            new object[] { " ", false },
+            new object[] { " ", false }
+        };
+
+        private static object[][] _ifEmptyGuidTestCases =
+        {
+            new object[] { Guid.Empty, true },
+            new object[] { Guid.NewGuid(), false },
+        };
+
+        private static object[][] _ifEmptyIEnumerableTestCases =
+        {
             new object[] { new string[] { }, true },
             new object[] { new string[] { "test" }, false },
             new object[] { new Dictionary<string, string>(), true },
         };
 
-        private static object[][] _ifNotEmptyTestCases = _ifEmptyTestCases.InverseBool();
+        private static object[][] _ifNotEmptyStringTestCases = _ifEmptyStringTestCases.InverseBool();
+        private static object[][] _ifNotEmptyGuidTestCases = _ifEmptyGuidTestCases.InverseBool();
+        private static object[][] _ifNotEmptyIEnumarableTestCases = _ifEmptyIEnumerableTestCases.InverseBool();
 
-        [TestCaseSource(nameof(_ifEmptyTestCases))]
-        public void IfEmpty(object value, bool shouldThrow)
+        [TestCaseSource(nameof(_ifEmptyStringTestCases))]
+        public void IfEmpty_String(string value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
@@ -35,8 +48,30 @@ namespace sorovi.Validation.Tests
             else { a.Should().NotThrow(); }
         }
 
-        [TestCaseSource(nameof(_ifNotEmptyTestCases))]
-        public void IfNotEmpty(object value, bool shouldThrow)
+        [TestCaseSource(nameof(_ifEmptyGuidTestCases))]
+        public void IfEmpty_Guid(Guid value, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfEmpty();
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfEmpty); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifEmptyIEnumerableTestCases))]
+        public void IfEmpty_IEnumerable(IEnumerable value, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfEmpty();
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfEmpty); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifNotEmptyStringTestCases))]
+        public void IfNotEmpty_String(string value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
@@ -46,16 +81,26 @@ namespace sorovi.Validation.Tests
             else { a.Should().NotThrow(); }
         }
 
-        [Test]
-        public void IfEmpty_Should_Throw_NotSupport_When_A_Not_Processable_Type_Was_Passed()
+        [TestCaseSource(nameof(_ifNotEmptyGuidTestCases))]
+        public void IfNotEmpty_Guid(Guid value, bool shouldThrow)
         {
-            int value = 0;
-
             Action a = () =>
                 ThrowOn(() => value)
-                    .IfEmpty();
+                    .IfNotEmpty();
 
-            a.Should().Throw<NotSupportedException>();
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotEmpty); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifNotEmptyIEnumarableTestCases))]
+        public void IfNotEmpty_IEnumerable(IEnumerable value, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfNotEmpty();
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotEmpty); }
+            else { a.Should().NotThrow(); }
         }
     }
 }

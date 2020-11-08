@@ -13,9 +13,6 @@ namespace sorovi.Validation.Tests
         private class MemberTestClass
         {
             public string Member { get; set; }
-
-            public ExceptionArgumentInfo<MemberTestClass> GetArgInfo() =>
-                ThrowOn(() => this);
         }
 
         [Test]
