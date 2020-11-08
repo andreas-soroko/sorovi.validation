@@ -1,25 +1,27 @@
 using System;
-using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
-using sorovi.Validation.Exceptions;
-using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation
 {
     public static class ValidationIfNull
     {
-        public static ref readonly ArgumentInfo<T> IfNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfNull<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfNull, in string message = null)
+            where TEx : Delegate
         {
-            if (!(arg.Value is null)) { return ref arg; }
+            if (arg.Value is null) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be <null>", arg.MemberName, arg.MemberName);
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNotNull<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfNotNull<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfNotNull, in string message = null)
+            where TEx : Delegate
         {
-            if (arg.Value is null) { return ref arg; }
+            if (!(arg.Value is null)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be <null>", arg.MemberName, arg.MemberName);
+            return arg;
         }
     }
 }

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
-using sorovi.Validation.Exceptions;
-using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation
 {
@@ -13,40 +11,66 @@ namespace sorovi.Validation
         // x: 0, y: 1 = < 0
         // x: 1, y: 0 = > 0
 
-        public static ref readonly ArgumentInfo<T> IfGreaterThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T, TEx> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
-            if (Comparer<T>.Default.Compare(arg.Value, value) <= 0) { return ref arg; }
+            if (Comparer<T>.Default.Compare(arg.Value, value) > 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}", arg.MemberName, arg.MemberName);
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T?> IfGreaterThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterThan, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T?, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T?, TEx> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
-            var x = Comparer<T?>.Default.Compare(arg.Value, value);
-            if (x <= 0) { return ref arg; }
+            if (Comparer<T?>.Default.Compare(arg.Value, value) > 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater than {value}", arg.MemberName, arg.MemberName);
+            return arg;
         }
 
-
-        public static ref readonly ArgumentInfo<T> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T> arg, T value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfoBase<T, TEx> arg,
+            T value,
+            in string type = ValidationType.IfGreaterOrEqualsThan,
+            in string message = null
+        )
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
-            if (Comparer<T>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
+            if (Comparer<T>.Default.Compare(arg.Value, value) >= 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}", arg.MemberName, arg.MemberName);
-
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(this in ArgumentInfo<T?> arg, T? value, in string type = ValidationTypes.ValueGreaterOrEqualsThan, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T?, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfoBase<T?, TEx> arg,
+            T? value,
+            in string type = ValidationType.IfGreaterOrEqualsThan,
+            in string message = null
+        )
             where T : struct, IComparable<T>
+            where TEx : Delegate
         {
-            if (Comparer<T?>.Default.Compare(arg.Value, value) < 0) { return ref arg; }
+            if (Comparer<T?>.Default.Compare(arg.Value, value) >= 0)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName, value));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be greater or equals than {value}", arg.MemberName, arg.MemberName);
-
+            return arg;
         }
     }
 }

@@ -2,7 +2,9 @@ using System;
 using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
+using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
@@ -17,11 +19,14 @@ namespace sorovi.Validation.Tests
             new object[] { -1, -2, true },
         };
 
-        private static object[][] _ifGreaterThanNullable = _ifGreaterThan.Concat(new[]
-        {
-            new object[] { null, 1, false },
-            new object[] { null, -1, false },
-        }).ToArray();
+        private static object[][] _ifGreaterThanNullable = _ifGreaterThan.Concat(
+                new[]
+                {
+                    new object[] { null, 1, false },
+                    new object[] { null, -1, false },
+                }
+            )
+            .ToArray();
 
         private static object[][] _ifGreaterOrEqualsThan = new object[][]
         {
@@ -39,7 +44,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfGreaterThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -50,7 +55,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfGreaterThan); }
             else { a.Should().NotThrow(); }
         }
 
@@ -61,7 +66,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfGreaterOrEqualsThan(value2);
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfGreaterOrEqualsThan); }
             else { a.Should().NotThrow(); }
         }
     }

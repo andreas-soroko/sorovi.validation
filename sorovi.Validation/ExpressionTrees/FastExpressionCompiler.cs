@@ -218,7 +218,7 @@ namespace sorovi.Validation.ExpressionTrees
             (TDelegate) TryCompileBoundToFirstClosureParam(typeof(TDelegate) == typeof(Delegate) ? lambdaExpr.Type : typeof(TDelegate),
                 lambdaExpr.Body, lambdaExpr.Parameters, GetClosureTypeToParamTypes(lambdaExpr.Parameters), lambdaExpr.ReturnType);
 
-        /// <summary>Tries to compile lambda expression to <typeparamref name="TDelegate"/> 
+        /// <summary>Tries to compile lambda expression to <typeparamref name="TDelegate"/>
         /// with the provided closure object and constant expressions (or lack there of) -
         /// Constant expression should be the in order of Fields in closure object!
         /// Note 1: Use it on your own risk - FEC won't verify the expression is compile-able with passed closure, it is up to you!
@@ -416,7 +416,7 @@ namespace sorovi.Validation.ExpressionTrees
             public LiveCountArray<object> Constants;
 
             /// Parameters not passed through lambda parameter list But used inside lambda body.
-            /// The top expression should Not contain not passed parameters. 
+            /// The top expression should Not contain not passed parameters.
             public ParameterExpression[] NonPassedParameters;
 
             /// All nested lambdas recursively nested in expression
@@ -879,7 +879,7 @@ namespace sorovi.Validation.ExpressionTrees
 
                         if (fewCallArgCount > 0)
                         {
-                            if (callObjectExpr != null && 
+                            if (callObjectExpr != null &&
                                 !TryCollectBoundConstants(ref closure, callObjectExpr, paramExprs, isNestedLambda, ref rootClosure))
                                 return false;
 
@@ -888,7 +888,7 @@ namespace sorovi.Validation.ExpressionTrees
                                 expr = ((OneArgumentMethodCallExpression)callExpr).Argument;
                                 continue;
                             }
-                            
+
                             if (fewCallArgCount == 2)
                             {
                                 var twoArgsExpr = (TwoArgumentsMethodCallExpression)callExpr;
@@ -1252,7 +1252,7 @@ namespace sorovi.Validation.ExpressionTrees
             ref ClosureInfo closure, IReadOnlyList<ParameterExpression> paramExprs,
             IReadOnlyList<ParameterExpression> nestedLambdaParamExprs, ParameterExpression[] nestedNonPassedParams)
         {
-            // If nested non passed parameter is not matched with any outer passed parameter, 
+            // If nested non passed parameter is not matched with any outer passed parameter,
             // then ensure it goes to outer non passed parameter.
             // But check that having a non-passed parameter in root expression is invalid.
             for (var i = 0; i < nestedNonPassedParams.Length; i++)
@@ -1551,7 +1551,7 @@ namespace sorovi.Validation.ExpressionTrees
                             return TryEmitNestedLambda((LambdaExpression) expr, paramExprs, il, ref closure);
 
                         case ExpressionType.Invoke:
-                            // optimization #138: we inline the invoked lambda body (only for lambdas without arguments) 
+                            // optimization #138: we inline the invoked lambda body (only for lambdas without arguments)
                             if (((InvocationExpression) expr).Expression is LambdaExpression lambdaExpr && lambdaExpr.Parameters.Count == 0)
                             {
                                 expr = lambdaExpr.Body;
@@ -3570,7 +3570,7 @@ namespace sorovi.Validation.ExpressionTrees
                 }
                 else if (closure.ConstantsAndNestedLambdasMultipleUsageCount == -1)
                 {
-                    // Load constants array variable 
+                    // Load constants array variable
                     EmitLoadLocalVariable(il, 0);
                     EmitLoadConstantInt(il, nestedLambdaInClosureIndex);
                     il.Emit(OpCodes.Ldelem_Ref); // load the array item object
@@ -4441,7 +4441,7 @@ namespace sorovi.Validation.ExpressionTrees
         }
     }
 
-    // Helpers targeting the performance. Extensions method names may be a bit funny (non standard), 
+    // Helpers targeting the performance. Extensions method names may be a bit funny (non standard),
     // in order to prevent conflicts with YOUR helpers with standard names
     internal static class Tools
     {
@@ -4676,7 +4676,7 @@ namespace sorovi.Validation.ExpressionTrees
     {
         /*
         // Original methods from ILGenerator.cs
-        
+
         public virtual LocalBuilder DeclareLocal(Type localType)
         {
             return this.DeclareLocal(localType, false);

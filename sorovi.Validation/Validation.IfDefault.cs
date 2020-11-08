@@ -1,22 +1,34 @@
+using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
 
 namespace sorovi.Validation
 {
     public static class ValidationIfDefault
     {
-        public static ref readonly ArgumentInfo<T> IfDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueDefaultValue, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfDefault<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfDefault, in string message = null)
+            where TEx : Delegate
         {
-            if (!EqualityComparer<T>.Default.Equals(arg.Value, default(T))) { return ref arg; }
+            if (EqualityComparer<T>.Default.Equals(arg.Value, default(T)))
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to default", arg.MemberName, arg.MemberName);
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNotDefault<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotDefaultValue, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfNotDefault<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfNotDefault, in string message = null)
+            where TEx : Delegate
         {
-            if (EqualityComparer<T>.Default.Equals(arg.Value, default(T))) { return ref arg; }
+            if (!EqualityComparer<T>.Default.Equals(arg.Value, default(T)))
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+            }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be default", arg.MemberName, arg.MemberName);
+            return arg;
         }
     }
 }

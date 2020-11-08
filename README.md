@@ -4,33 +4,55 @@
 [![NuGet](https://img.shields.io/nuget/dt/sorovi.Validation.svg?style=flat-square)](https://www.nuget.org/packages/sorovi.Validation/)
 
 Why an another validation library when there are many others out there already? 
-Because they didn't quite fit into my worklfow, something always bothered me. 
+Because they didn't quite fit into my worklfow, something always bothered me, so i created my own. 
 
+- exceptions are changeable
+- one exception with several types
+- exception contains necessaries information
+- same api for exception less results
+- fast
 
-## Examples
+and in the future 
+- scoping
+- more array and dictionary validations
 
-##### Some basic examples
+   
+> the lib is currently not finally done and I am still dissatisfied with some code parts,
+so it may be that up to version 1 there will maybe breaking changes
+
+---
+### Examples
+
+for better handling add 
 
 ```csharp
 using static sorovi.Validation.Validation;
+```
 
+now you can initialize it in several ways 
+
+```csharp
 string myVar = "Have a nice day!";
 
-ThrowOn(() => myVar)
-    .IfNull();
+// if you want exceptions
+ThrowOn(() => myVar);
+ThrowOn(myVar, nameof(myVar));
+ThrowOn(myVar, "custom_name");
 
-ThrowOn(() => myVar)
-    .IfEmpty();
-
-ThrowOn(() => myVar)
-    .IfEqualsTo("Have a nice day!");
+// if you want a result object was messages instead of exceptions
+ResultOn(() => myVar);
+Result(myVar, nameof(myVar));
+Result(myVar, "custom_name");
 ```
+
+each validation function will thrown a ValidationException with a `type` and `message`
+these can be found here [ErrorMessage](sorovi.Validation/Common/ErrorMessage.cs) [ValidationType](sorovi.Validation/Common/ValidationType.cs)
+
+
 
 ##### Usage with a class variable
 
 ```csharp
-using static sorovi.Validation.Validation;
-
 private class MySuperClass { 
     public string MyVar = "Have a nice day!";
 }
@@ -43,21 +65,32 @@ ThrowOn(() => myClass)
 
 ```
 
+##### Changing type/message property
+
+```csharp
+int? myVar = null;
+
+ThrowOn(() => myVar)
+    .IfNull("my_own_null_ref_type", "Property {0} was null!!1");
+```
+
+
+
 ##### Changing exception
 
 ```csharp
 ThrowOn(() => myVar)
-    .WithException( (type, message, memberName, value) => new F(...) )
+    .WithExceptionHandler( (type, message, memberName, value) => new F(...) )
     .IfNull();
 ```
 
 ```csharp
 ThrowOn(() => myVar)
-    .WithException(CreateMyOwnException)
+    .WithExceptionHandler(CreateMyOwnExceptionHandler)
     .IfNull();
 
-private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
-            new MyOwnException(...);
+private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>
+            throw new MyOwnException(...);
 ```
 
 
@@ -67,20 +100,20 @@ ThrowOn(() => myVar)
     .IfNull();
 
 
-public static ArgumentInfo<T> WithMyOwnException<T>(this in ArgumentInfo<T> arg) => 
-    arg.WithException(CreateMyOwnException);
+public static ArgumentInfo<T> WithMyOwnException<T, TEx>(this ArgumentInfoBase<T, TEx> arg) where TEx : Delegate => 
+    arg.WithExceptionHandler(CreateMyOwnException);
 
-private static Exception CreateMyOwnException(in string type, in string message, in string memberName, object value) =>
-            new MyOwnException(...);
+private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>
+            throw new MyOwnException(...);
 ```
 
 ##### Extendable
 
 ```csharp
-public static ref readonly ArgumentInfo<T> MyOwnValidatioFunction<T>(this in ArgumentInfo<T> arg, ....)
+public static ArgumentInfoBase<T, TEx> MyOwnValidatioFunction<T, TEx>(this ArgumentInfoBase<T, TEx> arg, ....)
 {
     // ....
-    return ref arg;
+    return arg;
 }
 
 
@@ -88,6 +121,8 @@ ThrowOn(() => myVar)
     .MyOwnValidatioFunction();
 
 ```
+
+more examples can be found [here](docs/validations.md)
 
 ## Benchmark
 
@@ -99,12 +134,14 @@ Intel Core i7-9750H CPU 2.60GHz, 1 CPU, 12 logical and 6 physical cores
   DefaultJob : .NET Core 3.1.6 (CoreCLR 4.700.20.26901, CoreFX 4.700.20.31603), X64 RyuJIT
 
 
-|                                      Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated | Completed Work Items | Lock Contentions |
-|-------------------------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|---------------------:|-----------------:|
-|                   'ThrowOn(() => property)' | 554.2992 ns | 4.6297 ns | 4.3306 ns | 0.0401 |     - |     - |     256 B |               0.0000 |                - |
-| 'ThrowOn(() => property, nameof(property))' |  26.6529 ns | 0.1541 ns | 0.1366 ns | 0.0102 |     - |     - |      64 B |               0.0000 |                - |
-|       'ThrowOn(property, nameof(property))' |  12.7798 ns | 0.0525 ns | 0.0465 ns |      - |     - |     - |         - |               0.0000 |                - |
-|                                     Classic |   0.1762 ns | 0.0278 ns | 0.0247 ns |      - |     - |     - |         - |               0.0000 |                - |
+|                                       Method |        Mean |     Error |    StdDev |  Gen 0 | Gen 1 | Gen 2 | Allocated | Completed Work Items | Lock Contentions |
+|--------------------------------------------- |------------:|----------:|----------:|-------:|------:|------:|----------:|---------------------:|-----------------:|
+|            'Classic - if (property is null)' |   0.2416 ns | 0.0162 ns | 0.0152 ns |      - |     - |     - |         - |               0.0000 |                - |
+|                    'ThrowOn(() => property)' | 450.1780 ns | 2.2035 ns | 1.7203 ns | 0.0420 |     - |     - |     264 B |               0.0000 |                - |
+|        'ThrowOn(property, nameof(property))' |   6.3160 ns | 0.0712 ns | 0.0666 ns | 0.0064 |     - |     - |      40 B |               0.0000 |                - |
+|             'ThrowOn(() => property).IfNull' | 466.8511 ns | 5.6947 ns | 5.3268 ns | 0.0420 |     - |     - |     264 B |               0.0000 |                - |
+| 'ThrowOn(property, nameof(property)).IfNull' |   8.3448 ns | 0.0721 ns | 0.0675 ns | 0.0064 |     - |     - |      40 B |               0.0000 |                - |
+
 
 ```
 

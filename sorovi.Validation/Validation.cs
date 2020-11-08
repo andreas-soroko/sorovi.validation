@@ -6,23 +6,36 @@ namespace sorovi.Validation
 {
     public static class Validation
     {
-        public static ArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression)
+        // Exception
+        public static ExceptionArgumentInfo<T> ThrowOn<T>(in Expression<Func<T>> propertyExpression, in ExceptionHandler exceptionHandler = null)
         {
-            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
+            if (propertyExpression is null) { throw new ArgumentNullException(nameof(propertyExpression)); }
 
             var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression);
 
-            return ThrowOn(value, memberName);
+            return new ExceptionArgumentInfo<T>(value, memberName, exceptionHandler);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in Func<T> propertyGetter, in string memberName)
+        public static ExceptionArgumentInfo<T> ThrowOn<T>(in T value, in ExceptionHandler exceptionHandler = null) =>
+            new ExceptionArgumentInfo<T>(value, null, exceptionHandler);
+
+        public static ExceptionArgumentInfo<T> ThrowOn<T>(in T value, in string memberName, in ExceptionHandler exceptionHandler = null) =>
+            new ExceptionArgumentInfo<T>(value, memberName, exceptionHandler);
+
+        // Result
+        public static ResultArgumentInfo<T> ResultOn<T>(in Expression<Func<T>> propertyExpression, in ResultExceptionHandler exceptionHandler = null)
         {
-            if (propertyGetter is null) throw new ArgumentNullException(nameof(propertyGetter));
+            if (propertyExpression is null) { throw new ArgumentNullException(nameof(propertyExpression)); }
 
-            return ThrowOn<T>(propertyGetter(), memberName);
+            var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression);
+
+            return new ResultArgumentInfo<T>(value, memberName, exceptionHandler);
         }
 
-        public static ArgumentInfo<T> ThrowOn<T>(in T value) => ThrowOn(value, null);
-        public static ArgumentInfo<T> ThrowOn<T>(in T value, in string memberName) => new ArgumentInfo<T>(value, memberName);
+        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in ResultExceptionHandler exceptionHandler = null) =>
+            new ResultArgumentInfo<T>(value, null, exceptionHandler);
+
+        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in string memberName, in ResultExceptionHandler exceptionHandler = null) =>
+            new ResultArgumentInfo<T>(value, memberName, exceptionHandler);
     }
 }

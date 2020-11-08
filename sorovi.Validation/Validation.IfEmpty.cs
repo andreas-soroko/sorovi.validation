@@ -2,73 +2,72 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using sorovi.Validation.Common;
-using sorovi.Validation.Exceptions;
-using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation
 {
     public static class ValidationIfEmpty
     {
-        public static ref readonly ArgumentInfo<T> IfEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueEmpty, in string message = null)
+        public static ArgumentInfoBase<T, TEx> IfEmpty<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfEmpty, in string message = null)
+            where TEx : Delegate
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' not to be empty";
-            arg.IfNull<T>();
+            arg.IfNull<T, TEx>(type);
 
             switch (arg.Value)
             {
                 case string sValue:
-                    if (!string.IsNullOrEmpty(sValue)) { return ref arg; }
+                    if (!string.IsNullOrEmpty(sValue)) { return arg; }
 
                     break;
                 case IEnumerable<object> eValue:
-                    if (eValue.Any()) { return ref arg; }
+                    if (eValue.Any()) { return arg; }
 
                     break;
                 case IDictionary sValue:
-                    if (sValue.Count > 0) { return ref arg; }
+                    if (sValue.Count > 0) { return arg; }
 
                     break;
                 case Guid sValue:
-                    if (sValue != Guid.Empty) { return ref arg; }
+                    if (sValue != Guid.Empty) { return arg; }
 
                     break;
-                default:
-                    throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
+                default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNotEmpty<T>(this in ArgumentInfo<T> arg, in string type = ValidationTypes.ValueNotEmpty, in string message = null)
+        public static ArgumentInfoBase<T, TEx> IfNotEmpty<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfNotEmpty, in string message = null)
+            where TEx : Delegate
         {
-            var errorMessage = message ?? $"Expected '{arg.MemberName}' to be empty";
-            if (arg.Value is null) { return ref arg; }
+            if (arg.Value is null) { return arg; }
 
             switch (arg.Value)
             {
                 case string sValue:
-                    if (string.IsNullOrEmpty(sValue)) { return ref arg; }
+                    if (string.IsNullOrEmpty(sValue)) { return arg; }
 
                     break;
                 case IEnumerable<object> eValue:
-                    if (!eValue.Any()) { return ref arg; }
+                    if (!eValue.Any()) { return arg; }
 
                     break;
                 case IDictionary sValue:
-                    if (sValue.Count == 0) { return ref arg; }
+                    if (sValue.Count == 0) { return arg; }
 
                     break;
                 case Guid sValue:
-                    if (sValue == Guid.Empty) { return ref arg; }
+                    if (sValue == Guid.Empty) { return arg; }
 
                     break;
-                default:
-                    throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
+                default: throw new NotSupportedException($"Specified type({typeof(T)}) is not supported.");
             }
 
-            throw arg.CreateException(type, errorMessage, arg.MemberName, arg.MemberName);
+            arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+
+            return arg;
         }
     }
 }

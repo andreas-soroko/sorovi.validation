@@ -1,25 +1,27 @@
 using System;
-using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 using sorovi.Validation.Common;
-using sorovi.Validation.Exceptions;
-using sorovi.Validation.ExpressionTrees;
 
 namespace sorovi.Validation
 {
     public static class ValidationIf
     {
-        public static ref readonly ArgumentInfo<T> If<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> If<T, TEx>(this ArgumentInfoBase<T, TEx> arg, Predicate<T> predicate, in string type = ValidationType.If, in string message = null)
+            where TEx : Delegate
         {
-            if (!predicate(arg.Value)) { return ref arg; }
+            if (predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' not to be <null>", arg.MemberName, arg.MemberName);
+            return arg;
         }
 
-        public static ref readonly ArgumentInfo<T> IfNot<T>(this in ArgumentInfo<T> arg, Predicate<T> predicate, in string type = ValidationTypes.ValueNull, in string message = null)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfoBase<T, TEx> IfNot<T, TEx>(this ArgumentInfoBase<T, TEx> arg, Predicate<T> predicate, in string type = ValidationType.IfNot, in string message = null)
+            where TEx : Delegate
         {
-            if (predicate(arg.Value)) { return ref arg; }
+            if (!predicate(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
-            throw arg.CreateException(type, message ?? $"Expected '{arg.MemberName}' to be <null>", arg.MemberName, arg.MemberName);
+            return arg;
         }
     }
 }

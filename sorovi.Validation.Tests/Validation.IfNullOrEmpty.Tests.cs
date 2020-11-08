@@ -1,10 +1,10 @@
 using System;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
 using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
-
 
 namespace sorovi.Validation.Tests
 {
@@ -12,10 +12,10 @@ namespace sorovi.Validation.Tests
     {
         private static object[][] _ifNullOrEmptyTestCases =
         {
-            new object[] {null, true},
-            new object[] {"", true},
-            new object[] {"test", false},
-            new object[] {" ", true},
+            new object[] { null, true },
+            new object[] { "", true },
+            new object[] { "test", false },
+            new object[] { " ", true },
         };
 
         private static object[][] _ifNotNullOrEmptyTestCases = _ifNullOrEmptyTestCases.InverseBool();
@@ -27,18 +27,18 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNullOrWhiteSpace();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNullOrWhiteSpace); }
             else { a.Should().NotThrow(); }
         }
 
         [TestCaseSource(nameof(_ifNotNullOrEmptyTestCases))]
-        public void IfNotNullOrEmpty(string value, bool shouldThrow) // todo hacki
+        public void IfNotNullOrEmpty(string value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
                     .IfNotNullOrWhiteSpace();
 
-            if (shouldThrow) { a.Should().Throw<ValidationException>(); }
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotNullOrWhiteSpace); }
             else { a.Should().NotThrow(); }
         }
     }

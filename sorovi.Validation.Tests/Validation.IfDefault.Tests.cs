@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
+using sorovi.Validation.Common;
 using sorovi.Validation.Exceptions;
 using sorovi.Validation.Tests.Helper;
 using static sorovi.Validation.Validation;
@@ -20,7 +19,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfDefault();
 
-            a.Should().Throw<ValidationException>();
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfDefault);
         }
 
         [TestCase]
@@ -44,7 +43,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfDefault();
 
-            a.Should().Throw<ValidationException>();
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfDefault);
         }
 
         [TestCase]
@@ -68,7 +67,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotDefault();
 
-            a.Should().Throw<ValidationException>();
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotDefault);
         }
 
         [TestCase]
@@ -92,7 +91,7 @@ namespace sorovi.Validation.Tests
                 ThrowOn(() => value)
                     .IfNotDefault();
 
-            a.Should().Throw<ValidationException>();
+            a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotDefault);
         }
 
         [TestCase]
