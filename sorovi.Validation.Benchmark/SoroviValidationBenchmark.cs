@@ -8,7 +8,7 @@ namespace sorovi.Validation.Benchmark
 {
     [MemoryDiagnoser]
     [ThreadingDiagnoser]
-    public class SoroviValidation
+    public class SoroviValidationBenchmark
     {
         private static string property = "some_content";
 

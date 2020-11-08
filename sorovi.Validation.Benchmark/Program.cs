@@ -6,7 +6,9 @@ namespace sorovi.Validation.Benchmark
     {
         static void Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<SoroviValidation>();
+            //BenchmarkRunner.Run<SoroviValidationBenchmark>();
+            //BenchmarkRunner.Run<DawnGuardBenchmark>();
+            BenchmarkRunner.Run<EnsureThatBenchmark>();
         }
     }
 }
