@@ -8,7 +8,7 @@ using static sorovi.Validation.Validation;
 
 namespace sorovi.Validation.Tests
 {
-    public partial class ResultOnTests
+    public partial class ValidationIfTests
     {
         [TestCase("", "", true)]
         [TestCase("", "test", false)]

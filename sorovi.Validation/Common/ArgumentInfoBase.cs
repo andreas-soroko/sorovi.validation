@@ -6,12 +6,13 @@ namespace sorovi.Validation.Common
     public abstract class ArgumentInfoBase<TValue, TExceptionDelegate>
         where TExceptionDelegate : Delegate
     {
-        public bool HasErrors { get; protected set; } = false;
+        public bool HasErrors => ErrorMessages?.Length > 0;
         public abstract string ErrorMessage { get; }
         public abstract TValue Value { get; }
         public abstract string MemberName { get; }
         public abstract void ExceptionHandler(in string type, in string message);
         protected abstract TExceptionDelegate InnerExceptionHandler { get; }
+        protected StringBuilder ErrorMessages { get; set; }
 
         public abstract ArgumentInfoBase<TValue, TExceptionDelegate> WithExceptionHandler(in TExceptionDelegate exceptionHandler);
 

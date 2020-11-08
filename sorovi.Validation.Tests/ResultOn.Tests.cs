@@ -24,7 +24,27 @@ namespace sorovi.Validation.Tests
 
             result.HasErrors.Should().BeTrue();
             result.ErrorMessage.Should().NotBeNullOrEmpty();
-            result.ErrorMessage.Split(Environment.NewLine).Should().HaveCount(4);
+            result.ErrorMessage.Split(Environment.NewLine).Should().HaveCount(3);
+        }
+
+        [Test]
+        public void Should_Contain_Messages_From_Member()
+        {
+            var value = new TestClass();
+
+            var result =
+                ResultOn(() => value)
+                    .IfNull()
+                    .Member(m => m.Member, v => v.IfEmpty());
+
+            result.HasErrors.Should().BeTrue();
+            result.ErrorMessage.Should().NotBeNullOrEmpty();
+            result.ErrorMessage.Should().Be("Expected 'value.Member' not to be empty");
+        }
+
+        private class TestClass
+        {
+            public string Member { get; set; }
         }
     }
 }

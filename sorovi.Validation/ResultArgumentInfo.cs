@@ -14,33 +14,31 @@ namespace sorovi.Validation
     {
         public override TValue Value { get; }
         public override string MemberName { get; }
-        public override string ErrorMessage => errorMessages.ToString();
+        public override string ErrorMessage => ErrorMessages.ToString().Trim();
         protected override ResultExceptionHandler InnerExceptionHandler { get; }
 
-        private StringBuilder errorMessages;
-
-        public ResultArgumentInfo(in TValue value, in string memberName, in ResultExceptionHandler exceptionHandler = null)
+        public ResultArgumentInfo(in TValue value, in string memberName, in ResultExceptionHandler exceptionHandler = null, in StringBuilder parentBuilder = null)
         {
             Value = value;
             MemberName = memberName;
             InnerExceptionHandler = exceptionHandler;
+            ErrorMessages = parentBuilder;
         }
 
         public override ArgumentInfoBase<TValue, ResultExceptionHandler> WithExceptionHandler(in ResultExceptionHandler exceptionHandler) =>
             new ResultArgumentInfo<TValue>(Value, MemberName, exceptionHandler);
 
         internal override ArgumentInfoBase<TNewValue, ResultExceptionHandler> New<TNewValue>(in TNewValue value, in string memberName) =>
-            new ResultArgumentInfo<TNewValue>(value, memberName, InnerExceptionHandler);
+            new ResultArgumentInfo<TNewValue>(value, memberName, InnerExceptionHandler, ErrorMessages ??= new StringBuilder());
 
         public override void ExceptionHandler(in string type, in string message)
         {
             var result = (InnerExceptionHandler ?? ValidationExceptionHandler)(type, message, MemberName, Value);
 
             if (string.IsNullOrWhiteSpace(result)) return;
-            if (!HasErrors) { HasErrors = true; }
 
-            errorMessages ??= new StringBuilder();
-            errorMessages.AppendLine(result);
+            ErrorMessages ??= new StringBuilder();
+            ErrorMessages.AppendLine(result);
         }
 
         private static string ValidationExceptionHandler(in string type, in string message, in string memberName, in object value) =>
