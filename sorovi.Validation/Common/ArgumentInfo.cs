@@ -9,7 +9,12 @@ namespace sorovi.Validation.Common
         public abstract string ErrorMessage { get; }
         public abstract TValue Value { get; }
         public abstract string MemberName { get; }
+
         public abstract void ExceptionHandler(in string type, in string message);
+
+        public ArgumentInfo<TNew> As<TNew>() =>
+            New((TNew)(object)Value, MemberName);
+
         protected abstract ExceptionHandler InnerExceptionHandler { get; }
         protected StringBuilder ErrorMessages { get; set; }
 
