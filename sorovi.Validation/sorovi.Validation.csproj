@@ -22,4 +22,12 @@
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
   </ItemGroup>
 
+  <Target Name="CopyFilesToLocalFeed" AfterTargets="Build" Condition="'$(Configuration)' == 'Debug'">
+    <RemoveDir Directories="$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))/.nuget/packages/$(PackageId)/1.0.0-snapshot" />
+    <Exec Command="dotnet pack -p:Version=1-SNAPSHOT --no-build -o ./out" />
+    <Exec WorkingDirectory="./out" Command="dotnet nuget push *.nupkg -s $([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))/.nuget/packages/" ContinueOnError="true" />
+    <RemoveDir Directories="./out"/>
+  </Target>
+
+
 </Project>
