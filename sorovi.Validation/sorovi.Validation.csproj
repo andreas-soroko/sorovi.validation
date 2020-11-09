@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.4.3</Version>
+    <Version>0.4.4</Version>
     <LangVersion>8</LangVersion>
     <Authors>Andreas Soroko</Authors>
     <Description>    </Description>
@@ -26,7 +26,7 @@
     <RemoveDir Directories="$([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))/.nuget/packages/$(PackageId)/1.0.0-snapshot" />
     <Exec Command="dotnet pack -p:Version=1-SNAPSHOT --no-build -o ./out" />
     <Exec WorkingDirectory="./out" Command="dotnet nuget push *.nupkg -s $([System.Environment]::GetFolderPath(SpecialFolder.UserProfile))/.nuget/packages/" ContinueOnError="true" />
-    <RemoveDir Directories="./out"/>
+    <RemoveDir Directories="./out" />
   </Target>
 
 
