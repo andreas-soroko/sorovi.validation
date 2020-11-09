@@ -6,10 +6,10 @@ namespace sorovi.Validation
 {
     public static class ValidationMember
     {
-        public static ArgumentInfoBase<TFirstType, TEx> Member<TFirstType, TSecondType, TEx>(
-            this ArgumentInfoBase<TFirstType, TEx> currentArg,
+        public static ArgumentInfo<TFirstType, TEx> Member<TFirstType, TSecondType, TEx>(
+            this ArgumentInfo<TFirstType, TEx> currentArg,
             in Expression<Func<TFirstType, TSecondType>> propertyExpression,
-            in Action<ArgumentInfoBase<TSecondType, TEx>> arg
+            in Action<ArgumentInfo<TSecondType, TEx>> arg
         )
             where TEx : Delegate
         {

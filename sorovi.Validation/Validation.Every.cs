@@ -12,19 +12,19 @@ namespace sorovi.Validation
     {
         #region TItem[]
 
-        public static ArgumentInfoBase<List<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfoBase<List<TItem>, TEx> arg, in Action<ArgumentInfoBase<TItem, TEx>> action)
+        public static ArgumentInfo<List<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfo<List<TItem>, TEx> arg, in Action<ArgumentInfo<TItem, TEx>> action)
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
 
-        public static ArgumentInfoBase<IList<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfoBase<IList<TItem>, TEx> arg, in Action<ArgumentInfoBase<TItem, TEx>> action)
+        public static ArgumentInfo<IList<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfo<IList<TItem>, TEx> arg, in Action<ArgumentInfo<TItem, TEx>> action)
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
 
-        public static ArgumentInfoBase<IEnumerable<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfoBase<IEnumerable<TItem>, TEx> arg, in Action<ArgumentInfoBase<TItem, TEx>> action)
+        public static ArgumentInfo<IEnumerable<TItem>, TEx> Every<TItem, TEx>(this ArgumentInfo<IEnumerable<TItem>, TEx> arg, in Action<ArgumentInfo<TItem, TEx>> action)
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
 
-        public static ArgumentInfoBase<TItem[], TEx> Every<TItem, TEx>(this ArgumentInfoBase<TItem[], TEx> arg, in Action<ArgumentInfoBase<TItem, TEx>> action)
+        public static ArgumentInfo<TItem[], TEx> Every<TItem, TEx>(this ArgumentInfo<TItem[], TEx> arg, in Action<ArgumentInfo<TItem, TEx>> action)
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
 
@@ -32,16 +32,16 @@ namespace sorovi.Validation
 
         #region <TKey, TItem>
 
-        public static ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> Every<TKey, TItem, TEx>(
-            this ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<KeyValuePair<TKey, TItem>, TEx>> action
+        public static ArgumentInfo<Dictionary<TKey, TItem>, TEx> Every<TKey, TItem, TEx>(
+            this ArgumentInfo<Dictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<KeyValuePair<TKey, TItem>, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
 
-        public static ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> Every<TKey, TItem, TEx>(
-            this ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<KeyValuePair<TKey, TItem>, TEx>> action
+        public static ArgumentInfo<IDictionary<TKey, TItem>, TEx> Every<TKey, TItem, TEx>(
+            this ArgumentInfo<IDictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<KeyValuePair<TKey, TItem>, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value, action);
@@ -50,16 +50,16 @@ namespace sorovi.Validation
 
         #region <TKey, _>
 
-        public static ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> EveryKey<TKey, TItem, TEx>(
-            this ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<TKey, TEx>> action
+        public static ArgumentInfo<Dictionary<TKey, TItem>, TEx> EveryKey<TKey, TItem, TEx>(
+            this ArgumentInfo<Dictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<TKey, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value?.Keys, action);
 
-        public static ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> EveryKey<TKey, TItem, TEx>(
-            this ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<TKey, TEx>> action
+        public static ArgumentInfo<IDictionary<TKey, TItem>, TEx> EveryKey<TKey, TItem, TEx>(
+            this ArgumentInfo<IDictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<TKey, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value?.Keys, action);
@@ -68,26 +68,26 @@ namespace sorovi.Validation
 
         #region <_, TItem>
 
-        public static ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> EveryValue<TKey, TItem, TEx>(
-            this ArgumentInfoBase<Dictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<TItem, TEx>> action
+        public static ArgumentInfo<Dictionary<TKey, TItem>, TEx> EveryValue<TKey, TItem, TEx>(
+            this ArgumentInfo<Dictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<TItem, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value?.Values, action);
 
-        public static ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> EveryValue<TKey, TItem, TEx>(
-            this ArgumentInfoBase<IDictionary<TKey, TItem>, TEx> arg,
-            in Action<ArgumentInfoBase<TItem, TEx>> action
+        public static ArgumentInfo<IDictionary<TKey, TItem>, TEx> EveryValue<TKey, TItem, TEx>(
+            this ArgumentInfo<IDictionary<TKey, TItem>, TEx> arg,
+            in Action<ArgumentInfo<TItem, TEx>> action
         )
             where TEx : Delegate =>
             EveryInternal(arg, arg.Value?.Values, action);
 
         #endregion
 
-        private static ArgumentInfoBase<TArgInfo, TEx> EveryInternal<TArgInfo, TItem, TEx>(
-            ArgumentInfoBase<TArgInfo, TEx> arg,
+        private static ArgumentInfo<TArgInfo, TEx> EveryInternal<TArgInfo, TItem, TEx>(
+            ArgumentInfo<TArgInfo, TEx> arg,
             IEnumerable<TItem> list,
-            in Action<ArgumentInfoBase<TItem, TEx>> action
+            in Action<ArgumentInfo<TItem, TEx>> action
         )
             where TEx : Delegate
         {
@@ -102,10 +102,10 @@ namespace sorovi.Validation
             return arg;
         }
 
-        private static ArgumentInfoBase<TArgInfo, TEx> EveryInternal<TArgInfo, TKey, TItem, TEx>(
-            ArgumentInfoBase<TArgInfo, TEx> arg,
+        private static ArgumentInfo<TArgInfo, TEx> EveryInternal<TArgInfo, TKey, TItem, TEx>(
+            ArgumentInfo<TArgInfo, TEx> arg,
             IDictionary<TKey, TItem> list,
-            in Action<ArgumentInfoBase<KeyValuePair<TKey, TItem>, TEx>> action
+            in Action<ArgumentInfo<KeyValuePair<TKey, TItem>, TEx>> action
         )
             where TEx : Delegate
         {

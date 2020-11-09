@@ -100,7 +100,7 @@ ThrowOn(() => myVar)
     .IfNull();
 
 
-public static ArgumentInfo<T> WithMyOwnException<T, TEx>(this ArgumentInfoBase<T, TEx> arg) where TEx : Delegate => 
+public static ArgumentInfo<T> WithMyOwnException<T, TEx>(this ArgumentInfo<T, TEx> arg) where TEx : Delegate => 
     arg.WithExceptionHandler(CreateMyOwnException);
 
 private static void CreateMyOwnExceptionHandler(in string type, in string message, in string memberName, in object value) =>

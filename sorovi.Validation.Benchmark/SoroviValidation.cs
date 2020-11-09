@@ -29,12 +29,12 @@ namespace sorovi.Validation.Benchmark
             ThrowOn(property, nameof(property));
 
         [Benchmark(Description = "ThrowOn(() => property).IfNull")]
-        public ArgumentInfoBase<string, ExceptionHandler> PropertyGetterIfNull() =>
+        public ArgumentInfo<string, ExceptionHandler> PropertyGetterIfNull() =>
             ThrowOn(() => property)
                 .IfNull();
 
         [Benchmark(Description = "ThrowOn(property, nameof(property)).IfNull")]
-        public ArgumentInfoBase<string, ExceptionHandler> WithoutPropertyGetter() =>
+        public ArgumentInfo<string, ExceptionHandler> WithoutPropertyGetter() =>
             ThrowOn(property, nameof(property))
                 .IfNull();
     }

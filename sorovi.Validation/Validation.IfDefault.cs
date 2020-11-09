@@ -8,7 +8,7 @@ namespace sorovi.Validation
     public static class ValidationIfDefault
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T, TEx> IfDefault<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfDefault, in string message = null)
+        public static ArgumentInfo<T, TEx> IfDefault<T, TEx>(this ArgumentInfo<T, TEx> arg, in string type = ValidationType.IfDefault, in string message = null)
             where TEx : Delegate
         {
             if (EqualityComparer<T>.Default.Equals(arg.Value, default(T)))
@@ -20,7 +20,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T, TEx> IfNotDefault<T, TEx>(this ArgumentInfoBase<T, TEx> arg, in string type = ValidationType.IfNotDefault, in string message = null)
+        public static ArgumentInfo<T, TEx> IfNotDefault<T, TEx>(this ArgumentInfo<T, TEx> arg, in string type = ValidationType.IfNotDefault, in string message = null)
             where TEx : Delegate
         {
             if (!EqualityComparer<T>.Default.Equals(arg.Value, default(T)))

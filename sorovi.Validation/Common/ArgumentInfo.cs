@@ -3,7 +3,7 @@ using System.Text;
 
 namespace sorovi.Validation.Common
 {
-    public abstract class ArgumentInfoBase<TValue, TExceptionDelegate>
+    public abstract class ArgumentInfo<TValue, TExceptionDelegate>
         where TExceptionDelegate : Delegate
     {
         public bool HasErrors => ErrorMessages?.Length > 0;
@@ -14,11 +14,11 @@ namespace sorovi.Validation.Common
         protected abstract TExceptionDelegate InnerExceptionHandler { get; }
         protected StringBuilder ErrorMessages { get; set; }
 
-        public abstract ArgumentInfoBase<TValue, TExceptionDelegate> WithExceptionHandler(in TExceptionDelegate exceptionHandler);
+        public abstract ArgumentInfo<TValue, TExceptionDelegate> WithExceptionHandler(in TExceptionDelegate exceptionHandler);
 
-        public static implicit operator TValue(in ArgumentInfoBase<TValue, TExceptionDelegate> arg) =>
+        public static implicit operator TValue(in ArgumentInfo<TValue, TExceptionDelegate> arg) =>
             arg.Value;
 
-        internal abstract ArgumentInfoBase<TNewValue, TExceptionDelegate> New<TNewValue>(in TNewValue value, in string memberName);
+        internal abstract ArgumentInfo<TNewValue, TExceptionDelegate> New<TNewValue>(in TNewValue value, in string memberName);
     }
 }

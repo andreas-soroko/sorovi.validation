@@ -12,7 +12,7 @@ namespace sorovi.Validation
         // x: 1, y: 0 = > 0
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T, TEx> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfo<T, TEx> IfGreaterThan<T, TEx>(this ArgumentInfo<T, TEx> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
             where TEx : Delegate
         {
@@ -25,7 +25,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T?, TEx> IfGreaterThan<T, TEx>(this ArgumentInfoBase<T?, TEx> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfo<T?, TEx> IfGreaterThan<T, TEx>(this ArgumentInfo<T?, TEx> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
             where TEx : Delegate
         {
@@ -38,8 +38,8 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T, TEx> IfGreaterOrEqualsThan<T, TEx>(
-            this ArgumentInfoBase<T, TEx> arg,
+        public static ArgumentInfo<T, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfo<T, TEx> arg,
             T value,
             in string type = ValidationType.IfGreaterOrEqualsThan,
             in string message = null
@@ -56,8 +56,8 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfoBase<T?, TEx> IfGreaterOrEqualsThan<T, TEx>(
-            this ArgumentInfoBase<T?, TEx> arg,
+        public static ArgumentInfo<T?, TEx> IfGreaterOrEqualsThan<T, TEx>(
+            this ArgumentInfo<T?, TEx> arg,
             T? value,
             in string type = ValidationType.IfGreaterOrEqualsThan,
             in string message = null

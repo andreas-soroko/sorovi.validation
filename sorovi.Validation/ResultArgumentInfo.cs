@@ -10,7 +10,7 @@ namespace sorovi.Validation
 {
     public delegate string ResultExceptionHandler(in string type, in string message, in string memberName, in object value);
 
-    public class ResultArgumentInfo<TValue> : ArgumentInfoBase<TValue, ResultExceptionHandler>
+    public class ResultArgumentInfo<TValue> : ArgumentInfo<TValue, ResultExceptionHandler>
     {
         public override TValue Value { get; }
         public override string MemberName { get; }
@@ -25,10 +25,10 @@ namespace sorovi.Validation
             ErrorMessages = parentBuilder;
         }
 
-        public override ArgumentInfoBase<TValue, ResultExceptionHandler> WithExceptionHandler(in ResultExceptionHandler exceptionHandler) =>
+        public override ArgumentInfo<TValue, ResultExceptionHandler> WithExceptionHandler(in ResultExceptionHandler exceptionHandler) =>
             new ResultArgumentInfo<TValue>(Value, MemberName, exceptionHandler);
 
-        internal override ArgumentInfoBase<TNewValue, ResultExceptionHandler> New<TNewValue>(in TNewValue value, in string memberName) =>
+        internal override ArgumentInfo<TNewValue, ResultExceptionHandler> New<TNewValue>(in TNewValue value, in string memberName) =>
             new ResultArgumentInfo<TNewValue>(value, memberName, InnerExceptionHandler, ErrorMessages ??= new StringBuilder());
 
         public override void ExceptionHandler(in string type, in string message)
