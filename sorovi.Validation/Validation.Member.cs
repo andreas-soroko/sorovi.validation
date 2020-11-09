@@ -30,8 +30,18 @@ namespace sorovi.Validation
             in Action<ArgumentInfo<TSecondType>> arg
         )
         {
-            if (currentArg.Value is null) { return currentArg; }
-            return Member(currentArg, propertyExpression, arg);
+            if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
+            if (!(propertyExpression.Body is MemberExpression memberExpression)) throw new ArgumentException("A member expression is expected.");
+            if (arg == null) throw new ArgumentNullException(nameof(arg));
+
+            var (value, memberName) = ExpressionHelper.TryGetValue(propertyExpression, currentArg.Value);
+
+            if (value is null) { return currentArg; }
+
+            arg(
+                currentArg.New(value, BuildMemberName(currentArg.MemberName, memberName))
+            );
+            return currentArg;
         }
 
         private static string BuildMemberName(in string firstMember, in string secondMember)

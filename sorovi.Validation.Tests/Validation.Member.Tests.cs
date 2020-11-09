@@ -45,5 +45,36 @@ namespace sorovi.Validation.Tests
 
             a.Should().NotThrow();
         }
+
+        [Test]
+        public void Member_Optional_Should_Not_Throw_When_Member_Is_Null()
+        {
+            var value = new MemberTestClass();
+
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfNull()
+                    .MemberOptional(m => m.Member, arg => arg.IfNull());
+
+            a.Should().NotThrow();
+        }
+
+        [Test]
+        public void Member_Optional_Should_Throw_When_Member_Is_WhiteSpace()
+        {
+            var value = new MemberTestClass()
+            {
+                Member = " "
+            };
+
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfNull()
+                    .MemberOptional(m => m.Member, arg => arg.IfNullOrWhiteSpace());
+
+            a.Should()
+                .Throw<ValidationException>()
+                .WithType(ValidationType.IfNullOrWhiteSpace);
+        }
     }
 }
