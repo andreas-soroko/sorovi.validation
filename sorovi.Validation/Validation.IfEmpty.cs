@@ -32,6 +32,17 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfo<Guid?, TEx> IfEmpty<TEx>(this ArgumentInfo<Guid?, TEx> arg, in string type = ValidationType.IfEmpty, in string message = null)
+            where TEx : Delegate
+        {
+            if (arg.Value is null || arg.Value == Guid.Empty)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+            }
+            return arg;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ArgumentInfo<T, TEx> IfEmpty<T, TEx>(this ArgumentInfo<T, TEx> arg, in string type = ValidationType.IfEmpty, in string message = null)
             where T : IEnumerable
             where TEx : Delegate
@@ -59,6 +70,17 @@ namespace sorovi.Validation
             where TEx : Delegate
         {
             if (arg.Value != Guid.Empty)
+            {
+                arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
+            }
+            return arg;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ArgumentInfo<Guid?, TEx> IfNotEmpty<TEx>(this ArgumentInfo<Guid?, TEx> arg, in string type = ValidationType.IfNotEmpty, in string message = null)
+            where TEx : Delegate
+        {
+            if (arg.Value != null && arg.Value != Guid.Empty)
             {
                 arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName));
             }

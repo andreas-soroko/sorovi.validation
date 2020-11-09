@@ -26,6 +26,13 @@ namespace sorovi.Validation.Tests
             new object[] { Guid.NewGuid(), false },
         };
 
+        private static object[][] _ifEmptyNullableGuidTestCases =
+        {
+            new object[] { (Guid?)null, true },
+            new object[] { Guid.Empty, true },
+            new object[] { Guid.NewGuid(), false },
+        };
+
         private static object[][] _ifEmptyIEnumerableTestCases =
         {
             new object[] { new string[] { }, true },
@@ -35,6 +42,7 @@ namespace sorovi.Validation.Tests
 
         private static object[][] _ifNotEmptyStringTestCases = _ifEmptyStringTestCases.InverseBool();
         private static object[][] _ifNotEmptyGuidTestCases = _ifEmptyGuidTestCases.InverseBool();
+        private static object[][] _ifNotEmptyNullableGuidTestCases = _ifEmptyNullableGuidTestCases.InverseBool();
         private static object[][] _ifNotEmptyIEnumarableTestCases = _ifEmptyIEnumerableTestCases.InverseBool();
 
         [TestCaseSource(nameof(_ifEmptyStringTestCases))]
@@ -50,6 +58,17 @@ namespace sorovi.Validation.Tests
 
         [TestCaseSource(nameof(_ifEmptyGuidTestCases))]
         public void IfEmpty_Guid(Guid value, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfEmpty();
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfEmpty); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifEmptyNullableGuidTestCases))]
+        public void IfEmpty_Nullable_Guid(Guid? value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
@@ -83,6 +102,17 @@ namespace sorovi.Validation.Tests
 
         [TestCaseSource(nameof(_ifNotEmptyGuidTestCases))]
         public void IfNotEmpty_Guid(Guid value, bool shouldThrow)
+        {
+            Action a = () =>
+                ThrowOn(() => value)
+                    .IfNotEmpty();
+
+            if (shouldThrow) { a.Should().Throw<ValidationException>().WithType(ValidationType.IfNotEmpty); }
+            else { a.Should().NotThrow(); }
+        }
+
+        [TestCaseSource(nameof(_ifNotEmptyNullableGuidTestCases))]
+        public void IfNotEmpty_Nullable_Guid(Guid? value, bool shouldThrow)
         {
             Action a = () =>
                 ThrowOn(() => value)
