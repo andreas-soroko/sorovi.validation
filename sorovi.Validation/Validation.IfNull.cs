@@ -29,7 +29,7 @@ namespace sorovi.Validation
             in string message = null
         )
         {
-            if (arg.Value.Value is null) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
+            if (arg.Value.Key is null || arg.Value.Value is null) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
             return arg;
         }
