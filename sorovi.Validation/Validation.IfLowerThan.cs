@@ -8,9 +8,8 @@ namespace sorovi.Validation
     public static class ValidationIfLowerThan
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfLowerThan<T, TEx>(this ArgumentInfo<T, TEx> arg, T value, in string type = ValidationType.IfLowerThan, in string message = null)
+        public static ArgumentInfo<T> IfLowerThan<T>(this ArgumentInfo<T> arg, T value, in string type = ValidationType.IfLowerThan, in string message = null)
             where T : IComparable<T>
-            where TEx : Delegate
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) < 0)
             {
@@ -21,9 +20,8 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T?,TEx> IfLowerThan<T, TEx>(this ArgumentInfo<T?, TEx> arg, T? value, in string type = ValidationType.IfLowerThan, in string message = null)
+        public static ArgumentInfo<T?> IfLowerThan<T>(this ArgumentInfo<T?> arg, T? value, in string type = ValidationType.IfLowerThan, in string message = null)
             where T : struct, IComparable<T>
-            where TEx : Delegate
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) < 0)
             {
@@ -34,9 +32,8 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfLowerOrEqualsThan<T, TEx>(this ArgumentInfo<T, TEx> arg, T value, in string type = ValidationType.IfLowerOrEqualsThan, in string message = null)
+        public static ArgumentInfo<T> IfLowerOrEqualsThan<T>(this ArgumentInfo<T> arg, T value, in string type = ValidationType.IfLowerOrEqualsThan, in string message = null)
             where T : IComparable<T>
-            where TEx : Delegate
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) <= 0)
             {
@@ -47,9 +44,8 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T?, TEx> IfLowerOrEqualsThan<T, TEx>(this ArgumentInfo<T?, TEx> arg, T? value, in string type = ValidationType.IfLowerOrEqualsThan, in string message = null)
+        public static ArgumentInfo<T?> IfLowerOrEqualsThan<T>(this ArgumentInfo<T?> arg, T? value, in string type = ValidationType.IfLowerOrEqualsThan, in string message = null)
             where T : struct, IComparable<T>
-            where TEx : Delegate
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) <= 0)
             {

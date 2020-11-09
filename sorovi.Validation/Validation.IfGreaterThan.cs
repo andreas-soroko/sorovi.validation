@@ -12,9 +12,9 @@ namespace sorovi.Validation
         // x: 1, y: 0 = > 0
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfGreaterThan<T, TEx>(this ArgumentInfo<T, TEx> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfo<T> IfGreaterThan<T>(this ArgumentInfo<T> arg, T value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
-            where TEx : Delegate
+
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) > 0)
             {
@@ -25,9 +25,9 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T?, TEx> IfGreaterThan<T, TEx>(this ArgumentInfo<T?, TEx> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
+        public static ArgumentInfo<T?> IfGreaterThan<T>(this ArgumentInfo<T?> arg, T? value, in string type = ValidationType.IfGreaterThan, in string message = null)
             where T : struct, IComparable<T>
-            where TEx : Delegate
+
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) > 0)
             {
@@ -38,14 +38,14 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfGreaterOrEqualsThan<T, TEx>(
-            this ArgumentInfo<T, TEx> arg,
+        public static ArgumentInfo<T> IfGreaterOrEqualsThan<T>(
+            this ArgumentInfo<T> arg,
             T value,
             in string type = ValidationType.IfGreaterOrEqualsThan,
             in string message = null
         )
             where T : struct, IComparable<T>
-            where TEx : Delegate
+
         {
             if (Comparer<T>.Default.Compare(arg.Value, value) >= 0)
             {
@@ -56,14 +56,14 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T?, TEx> IfGreaterOrEqualsThan<T, TEx>(
-            this ArgumentInfo<T?, TEx> arg,
+        public static ArgumentInfo<T?> IfGreaterOrEqualsThan<T>(
+            this ArgumentInfo<T?> arg,
             T? value,
             in string type = ValidationType.IfGreaterOrEqualsThan,
             in string message = null
         )
             where T : struct, IComparable<T>
-            where TEx : Delegate
+
         {
             if (Comparer<T?>.Default.Compare(arg.Value, value) >= 0)
             {

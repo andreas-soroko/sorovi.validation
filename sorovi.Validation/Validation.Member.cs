@@ -6,12 +6,11 @@ namespace sorovi.Validation
 {
     public static class ValidationMember
     {
-        public static ArgumentInfo<TFirstType, TEx> Member<TFirstType, TSecondType, TEx>(
-            this ArgumentInfo<TFirstType, TEx> currentArg,
+        public static ArgumentInfo<TFirstType> Member<TFirstType, TSecondType>(
+            this ArgumentInfo<TFirstType> currentArg,
             in Expression<Func<TFirstType, TSecondType>> propertyExpression,
-            in Action<ArgumentInfo<TSecondType, TEx>> arg
+            in Action<ArgumentInfo<TSecondType>> arg
         )
-            where TEx : Delegate
         {
             if (propertyExpression is null) throw new ArgumentNullException(nameof(propertyExpression));
             if (!(propertyExpression.Body is MemberExpression memberExpression)) throw new ArgumentException("A member expression is expected.");

@@ -7,9 +7,9 @@ using sorovi.Validation.Exceptions;
 
 namespace sorovi.Validation
 {
-    public delegate void ExceptionHandler(in string type, in string message, in string memberName, in object value);
+    public delegate string ExceptionHandler(in string type, in string message, in string memberName, in object value);
 
-    public class ExceptionArgumentInfo<TValue> : ArgumentInfo<TValue, ExceptionHandler>
+    public class ExceptionArgumentInfo<TValue> : ArgumentInfo<TValue>
     {
         public override TValue Value { get; }
         public override string MemberName { get; }
@@ -23,10 +23,10 @@ namespace sorovi.Validation
             InnerExceptionHandler = exceptionHandler;
         }
 
-        public override ArgumentInfo<TValue, ExceptionHandler> WithExceptionHandler(in ExceptionHandler exceptionHandler) =>
+        public override ArgumentInfo<TValue> WithExceptionHandler(in ExceptionHandler exceptionHandler) =>
             new ExceptionArgumentInfo<TValue>(Value, MemberName, exceptionHandler);
 
-        internal override ArgumentInfo<TNewValue, ExceptionHandler> New<TNewValue>(in TNewValue value, in string memberName) =>
+        internal override ArgumentInfo<TNewValue> New<TNewValue>(in TNewValue value, in string memberName) =>
             new ExceptionArgumentInfo<TNewValue>(value, memberName, InnerExceptionHandler);
 
         public override void ExceptionHandler(in string type, in string message)
@@ -34,10 +34,7 @@ namespace sorovi.Validation
             (InnerExceptionHandler ?? ValidationExceptionHandler)(type, message, MemberName, Value);
         }
 
-        private static string ValidationExceptionStringHandler(in string type, in string message, in string memberName, in object value) =>
-            $"[{type}] {message}";
-
-        private static void ValidationExceptionHandler(in string type, in string message, in string memberName, in object value) =>
+        private static string ValidationExceptionHandler(in string type, in string message, in string memberName, in object value) =>
             throw new ValidationException(type, message);
     }
 }

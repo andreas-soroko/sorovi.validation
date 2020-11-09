@@ -7,8 +7,7 @@ namespace sorovi.Validation
     public static class ValidationIfNullOrWhiteSpace
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<string, TEx> IfNullOrWhiteSpace<TEx>(this ArgumentInfo<string, TEx> arg, in string type = ValidationType.IfNullOrWhiteSpace, in string message = null)
-            where TEx : Delegate
+        public static ArgumentInfo<string> IfNullOrWhiteSpace(this ArgumentInfo<string> arg, in string type = ValidationType.IfNullOrWhiteSpace, in string message = null)
         {
             if (string.IsNullOrWhiteSpace(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 
@@ -16,8 +15,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<string, TEx> IfNotNullOrWhiteSpace<TEx>(this ArgumentInfo<string, TEx> arg, in string type = ValidationType.IfNotNullOrWhiteSpace, in string message = null)
-            where TEx : Delegate
+        public static ArgumentInfo<string> IfNotNullOrWhiteSpace(this ArgumentInfo<string> arg, in string type = ValidationType.IfNotNullOrWhiteSpace, in string message = null)
         {
             if (!string.IsNullOrWhiteSpace(arg.Value)) { arg.ExceptionHandler(type, ErrorMessage.For(type, message, arg.MemberName)); }
 

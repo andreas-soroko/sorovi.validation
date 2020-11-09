@@ -8,8 +8,7 @@ namespace sorovi.Validation
     public static class ValidationIfEqualsTo
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfEqualsTo<T, TEx>(this ArgumentInfo<T, TEx> arg, in T compareValue, in string type = ValidationType.IfEqualsTo, in string message = null)
-            where TEx : Delegate
+        public static ArgumentInfo<T> IfEqualsTo<T>(this ArgumentInfo<T> arg, in T compareValue, in string type = ValidationType.IfEqualsTo, in string message = null)
         {
             if (EqualityComparer<T>.Default.Equals(arg.Value, compareValue))
             {
@@ -20,8 +19,7 @@ namespace sorovi.Validation
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ArgumentInfo<T, TEx> IfNotEqualsTo<T, TEx>(this ArgumentInfo<T, TEx> arg, in T compareValue, in string type = ValidationType.IfNotEqualsTo, in string message = null)
-            where TEx : Delegate
+        public static ArgumentInfo<T> IfNotEqualsTo<T>(this ArgumentInfo<T> arg, in T compareValue, in string type = ValidationType.IfNotEqualsTo, in string message = null)
         {
             if (!EqualityComparer<T>.Default.Equals(arg.Value, compareValue))
             {

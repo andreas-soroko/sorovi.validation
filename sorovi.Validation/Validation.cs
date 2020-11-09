@@ -23,7 +23,7 @@ namespace sorovi.Validation
             new ExceptionArgumentInfo<T>(value, memberName, exceptionHandler);
 
         // Result
-        public static ResultArgumentInfo<T> ResultOn<T>(in Expression<Func<T>> propertyExpression, in ResultExceptionHandler exceptionHandler = null)
+        public static ResultArgumentInfo<T> ResultOn<T>(in Expression<Func<T>> propertyExpression, in ExceptionHandler exceptionHandler = null)
         {
             if (propertyExpression is null) { throw new ArgumentNullException(nameof(propertyExpression)); }
 
@@ -32,10 +32,10 @@ namespace sorovi.Validation
             return new ResultArgumentInfo<T>(value, memberName, exceptionHandler);
         }
 
-        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in ResultExceptionHandler exceptionHandler = null) =>
+        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in ExceptionHandler exceptionHandler = null) =>
             new ResultArgumentInfo<T>(value, null, exceptionHandler);
 
-        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in string memberName, in ResultExceptionHandler exceptionHandler = null) =>
+        public static ResultArgumentInfo<T> ResultOn<T>(in T value, in string memberName, in ExceptionHandler exceptionHandler = null) =>
             new ResultArgumentInfo<T>(value, memberName, exceptionHandler);
     }
 }
