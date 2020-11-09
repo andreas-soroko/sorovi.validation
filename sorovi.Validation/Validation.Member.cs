@@ -24,6 +24,16 @@ namespace sorovi.Validation
             return currentArg;
         }
 
+        public static ArgumentInfo<TFirstType> MemberOptional<TFirstType, TSecondType>(
+            this ArgumentInfo<TFirstType> currentArg,
+            in Expression<Func<TFirstType, TSecondType>> propertyExpression,
+            in Action<ArgumentInfo<TSecondType>> arg
+        )
+        {
+            if (currentArg.Value is null) { return currentArg; }
+            return Member(currentArg, propertyExpression, arg);
+        }
+
         private static string BuildMemberName(in string firstMember, in string secondMember)
         {
             bool isFirstMemberNullOrWhiteSpace = string.IsNullOrWhiteSpace(firstMember);
