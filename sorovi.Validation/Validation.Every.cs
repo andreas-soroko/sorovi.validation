@@ -78,6 +78,9 @@ namespace sorovi.Validation
         public static ArgumentInfo<IDictionary<TKey, TItem>> EveryValue<TKey, TItem>(this ArgumentInfo<IDictionary<TKey, TItem>> arg, in Action<ArgumentInfo<TItem>> action) =>
             EveryInternal(arg, arg.Value?.Values, action);
 
+        public static ArgumentInfo<IReadOnlyDictionary<TKey, TItem>> EveryValue<TKey, TItem>(this ArgumentInfo<IReadOnlyDictionary<TKey, TItem>> arg, in Action<ArgumentInfo<TItem>> action) =>
+            EveryInternal(arg, arg.Value?.Values, action);
+
         public static ArgumentInfo<IEnumerable<KeyValuePair<TKey, TItem>>> EveryValue<TKey, TItem>(
             this ArgumentInfo<IEnumerable<KeyValuePair<TKey, TItem>>> arg,
             in Action<ArgumentInfo<TItem>> action
